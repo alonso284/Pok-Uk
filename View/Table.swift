@@ -111,10 +111,29 @@ extension Game {
                         }
                     } else {
                         Spacer()
-                        Image(pokerEngine.buttonMessage)
-                            .onTapGesture {
-                                pokerEngine.playerTurn()
+//                        Image(pokerEngine.buttonMessage)
+//                            .onTapGesture {
+//                                pokerEngine.playerTurn()
+//                            }
+//                        Text(pokerEngine.buttonMessage)
+//                            .font(.custom("Mayan", size: 24))
+//                            .onTapGesture {
+//                                pokerEngine.playerTurn()
+//                            }
+                        Button(action: {
+                            pokerEngine.playerTurn()
+                            print(pokerEngine.buttonMessage)
+                        }, label: {
+                            ZStack {
+                                RoundedRectangle(cornerSize: .zero)
+                                    .foregroundStyle(Color.orange)
+                                Text(pokerEngine.buttonMessage)
+                                    .font(.custom("Mayan", size: 60))
+                                    .foregroundStyle(.black)
+                                
                             }
+                                
+                        })
                         Spacer()
                     }
                     

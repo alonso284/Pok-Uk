@@ -12,7 +12,7 @@ import SwiftUI
 // FIXME What does this address??
 
 struct Game: View {
-    @Binding var playing: Bool
+    @Environment(\.dismiss) var dismiss
     @State var paused: Bool = false
     @State var help: Bool = false
     
@@ -30,33 +30,6 @@ struct Game: View {
                 Table
             }
             .ignoresSafeArea()
-            
-            VStack {
-                HStack {
-                    Button(action: {
-                        paused.toggle()
-                    }) {
-                        CircleButton(systemName: "pause", color: .orange)
-                    }
-                    .disabled(paused)
-                    Spacer()
-                    Button(action: {
-                        // FIXME
-                    }) {
-                        CircleButton(systemName: "arkit", color: .red)
-                    }
-                    .disabled(paused)
-                    Button(action: {
-                        help.toggle()
-                    }) {
-                        CircleButton(systemName: "menucard", color: .orange)
-                    }
-                    .disabled(paused)
-                    
-                }
-                .padding(.horizontal)
-                Spacer()
-            }
 
             // Overlay
 //            if paused {
@@ -69,37 +42,37 @@ struct Game: View {
 //            }
             
         }
-//        .toolbar(content: {
-//            // Pause
-//            ToolbarItem(placement: .topBarLeading, content: {
-//                Button(action: {
-//                    paused.toggle()
-//                }) {
-//                    CircleButton(systemName: "pause", color: .orange)
-//                }
-//                .disabled(paused)
-//            })
-//            
-//            // AR
-//            ToolbarItem(placement: .topBarTrailing, content: {
-//                Button(action: {
-//                    // FIXME
-//                }) {
-//                    CircleButton(systemName: "arkit", color: .red)
-//                }
-//                .disabled(paused)
-//            })
-//            
-//            // Help
-//            ToolbarItem(placement: .topBarTrailing, content: {
-//                Button(action: {
-//                    help.toggle()
-//                }) {
-//                    CircleButton(systemName: "menucard", color: .orange)
-//                }
-//                .disabled(paused)
-//            })
-//        })
+        .toolbar(content: {
+            // Pause
+            ToolbarItem(placement: .topBarLeading, content: {
+                Button(action: {
+                    paused.toggle()
+                }) {
+                    CircleButton(systemName: "pause", color: .orange)
+                }
+                .disabled(paused)
+            })
+            
+            // AR
+            ToolbarItem(placement: .topBarTrailing, content: {
+                Button(action: {
+                    // FIXME
+                }) {
+                    CircleButton(systemName: "arkit", color: .red)
+                }
+                .disabled(paused)
+            })
+            
+            // Help
+            ToolbarItem(placement: .topBarTrailing, content: {
+                Button(action: {
+                    help.toggle()
+                }) {
+                    CircleButton(systemName: "menucard", color: .orange)
+                }
+                .disabled(paused)
+            })
+        })
         .sheet(isPresented: $paused) {
             PauseMenu
                 .interactiveDismissDisabled()
@@ -115,6 +88,6 @@ struct Game: View {
 
 #Preview {
     NavigationStack {
-        Game(playing: .constant(true))
+        Game()
     }
 }

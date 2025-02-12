@@ -11,12 +11,21 @@ struct CardView: View {
     var showing: Bool = true
     // FIXME: Remove default
     var card: Card = .mask
+    var highlight: Bool = false
     
     var body: some View {
         ZStack {
 //            RoundedRectangle(cornerRadius: 10)
 //                .foregroundStyle(showing ? .white : Color(red: 0.8, green: 0.5, blue: 0.1))
-            RadialGradient(colors: [(showing ? .white: .teal), (showing ? Color(red: 0.8, green: 0.5, blue: 0.1): .gray)], center: .center, startRadius: 0, endRadius: 180)
+            RadialGradient(colors: [
+                (showing ?  .white:
+                            .teal),
+                (showing ?  (highlight ?
+                                .green:
+                                Color(red: 0.8, green: 0.5, blue: 0.1)):
+                            .gray)
+            ],
+            center: .center, startRadius: 0, endRadius: 180)
                 .ignoresSafeArea()
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             if !showing {
@@ -62,12 +71,12 @@ struct Token: View {
                 if let text = description.text {
                     Text("\(text):")
                         .foregroundStyle(.white)
-                        .font(.system(size: 35))
+                        .font(.custom("Mayan", size: 40))
                 }
                 Text(String(description.amount))
                     .foregroundStyle(.white)
-                    .font(.system(size: 35))
                     .frame(width: 60)
+                    .font(.custom("Mayan", size: 40))
                 if description.number {
                     token
                 } else {
@@ -106,6 +115,6 @@ struct HandLabel: View {
     var hand: PokerHand
     var body: some View {
         Text(hand.description)
-            .font(.largeTitle)
+            .font(.custom("Mayan", size: 80))
     }
 }

@@ -11,7 +11,10 @@ extension Game {
     var Croupier: some View {
         VStack(spacing: 0) {
             ZStack {
-                Background()
+                Image("Background")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 VStack {
                     Spacer()
                     Image(image)

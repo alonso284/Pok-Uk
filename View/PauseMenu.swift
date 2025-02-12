@@ -57,9 +57,7 @@ extension Game {
                     Spacer()
                     // Quit
                     Button(action: {
-                        self.help = false
-                        self.paused = false
-                        self.playing = false
+                        dismiss()
                     }, label: {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(.red)
@@ -76,6 +74,7 @@ extension Game {
                     // Resume
                     Button(action: {
 //                        resume()
+                        paused = false
                     }, label: {
                         Image(systemName: "play.circle.fill")
                             .foregroundStyle(.green)
