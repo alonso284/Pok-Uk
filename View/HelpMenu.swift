@@ -12,6 +12,9 @@ struct HelpMenu: View {
         ZStack {
             Color.blue.opacity(0.2)
             ScrollView {
+                Text("Figure Ranking")
+                
+                Figures(style: .horizontal)
                 VStack {
                     Text("High Card")
                     HStack {

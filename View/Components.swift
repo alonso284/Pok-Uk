@@ -38,16 +38,17 @@ struct CardView: View {
                 Image(card.description)
                     .resizable()
                     .scaledToFit()
-                    .frame(maxWidth: 80, maxHeight: 80)
+                    .frame(maxWidth: 64, maxHeight: 64)
             }
         }
-        .frame(width: 100, height: 140)
+        .frame(width: 80, height: 112)
     }
 }
 
 struct CircleButton: View {
     var systemName: String
     var color: Color
+    var dimension: CGFloat = 50
     
     var body: some View {
         ZStack {
@@ -57,9 +58,9 @@ struct CircleButton: View {
                 .resizable()
                 .scaledToFit()
                 .foregroundStyle(.white)
-                .padding(12)
+                .padding(dimension/4)
         }
-        .frame(width: 50, height: 50)
+        .frame(width: dimension, height: dimension)
     }
 }
 
@@ -115,6 +116,52 @@ struct HandLabel: View {
     var hand: PokerHand
     var body: some View {
         Text(hand.description)
-            .font(.custom("Mayan", size: 80))
+            .font(.custom("Mayan", size: 40))
+    }
+}
+
+struct Figures: View {
+    enum Style {
+        case vertical, horizontal
+    }
+    
+    var style: Style = .vertical
+    
+    var body: some View {
+        Group {
+            if style == .vertical {
+                VStack {
+                    Spacer()
+                    ForEach(Card.allCases) { rank in
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundStyle(.white)
+                            Image(rank.description)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(2)
+                        }
+                        .frame(width: 60, height: 60)
+                        Spacer()
+                    }
+                }
+                .frame(width: 50, height: 500)
+            } else {
+                HStack {
+                    ForEach(Card.allCases) { rank in
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundStyle(.white)
+                            Image(rank.description)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(2)
+                        }
+                        .frame(width: 60, height: 60)
+                    }
+                }
+                .frame(height: 60)
+            }
+        }
     }
 }

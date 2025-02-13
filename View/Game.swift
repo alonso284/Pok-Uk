@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 // FIXME Dimensions
 // FIXME The right person is not winning
@@ -20,7 +21,11 @@ struct Game: View {
     @State var time:    Int = 0
     @StateObject var pokerEngine = PokerEngine()
     
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    // Animation variables
+    @State var isVisible = true
+    @State var timerCancellable: AnyCancellable?
+    
+    let cardShift: CGFloat = 40
     
     var body: some View {
         ZStack {
