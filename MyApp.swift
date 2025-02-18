@@ -5,9 +5,9 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-//                .task {
-//                    SoundManager.instance.playBackgroundMusic()
-//                }
+                .task {
+                    SoundManager.instance.playBackgroundMusic()
+                }
         }
     }
 }

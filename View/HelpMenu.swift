@@ -4,95 +4,87 @@
 //
 //  Created by Alonso Huerta on 10/02/25.
 //
-
 import SwiftUI
 
 struct HelpMenu: View {
+    let hands: [(name: String, cards: [(highlight: Bool, card: Card)])] = [
+        ("High Card", [
+            (true, .sun),
+            (false, .eagle),
+            (false, .fish),
+            (false, .pelican),
+            (false, .turtle)
+        ]),
+        ("Pair", [
+            (true, .fish),
+            (true, .fish),
+            (false, .pelican),
+            (false, .mask),
+            (false, .eagle)
+        ]),
+        ("Two Pair", [
+            (true, .mask),
+            (true, .mask),
+            (true, .pelican),
+            (true, .pelican),
+            (false, .sun)
+        ]),
+        ("Three of a Kind", [
+            (true, .eagle),
+            (true, .eagle),
+            (true, .eagle),
+            (false, .sun),
+            (false, .mask)
+        ]),
+        ("Full House", [
+            (true, .sun),
+            (true, .sun),
+            (true, .sun),
+            (true, .fish),
+            (true, .fish)
+        ]),
+        ("Four of a Kind", [
+            (true, .pelican),
+            (true, .pelican),
+            (true, .pelican),
+            (true, .pelican),
+            (false, .fish)
+        ]),
+        ("Five of a Kind", [
+            (true, .turtle),
+            (true, .turtle),
+            (true, .turtle),
+            (true, .turtle),
+            (true, .turtle)
+        ])
+    ]
+    
     var body: some View {
         ZStack {
-            Color.blue.opacity(0.2)
+            Color("Supplement").opacity(0.8)
             ScrollView {
-                Text("Figure Ranking")
+                Text("Ranked Hands")
+                    .font(.custom("Mayan", size: 60))
+                    .foregroundStyle(.white)
+                    .padding(.bottom, 40)
                 
-                Figures(style: .horizontal)
-                VStack {
-                    Text("High Card")
-                    HStack {
-                        CardView(card: .sun, highlight: true)
-                        CardView(card: .eagle)
-                        CardView(card: .fish)
-                        CardView(card: .pelican)
-                        CardView(card: .turtle)
+                ForEach(hands, id: \ .name) { hand in
+                    VStack {
+                        Text(hand.name)
+                            .font(.custom("Mayan", size: 40))
+                            .foregroundStyle(.white)
+                        HStack {
+                            ForEach(hand.cards, id: \ .card) { card in
+                                CardView(card: card.card, highlight: card.highlight)
+                                
+                            }
+                        }
                     }
-                }
-                
-                VStack {
-                    Text("Pair")
-                    HStack {
-                        CardView(card: .fish, highlight: true)
-                        CardView(card: .fish, highlight: true)
-                        CardView(card: .pelican)
-                        CardView(card: .mask)
-                        CardView(card: .eagle)
-                    }
-                }
-                
-                VStack {
-                    Text("Two Pair")
-                    HStack {
-                        CardView(card: .mask, highlight: true)
-                        CardView(card: .mask, highlight: true)
-                        CardView(card: .pelican, highlight: true)
-                        CardView(card: .pelican, highlight: true)
-                        CardView(card: .sun)
-                    }
-                }
-                
-                VStack {
-                    Text("Three of a Kind")
-                    HStack {
-                        CardView(card: .eagle, highlight: true)
-                        CardView(card: .eagle, highlight: true)
-                        CardView(card: .eagle, highlight: true)
-                        CardView(card: .sun)
-                        CardView(card: .mask)
-                    }
-                }
-                
-                VStack {
-                    Text("Full House")
-                    HStack {
-                        CardView(card: .sun, highlight: true)
-                        CardView(card: .sun, highlight: true)
-                        CardView(card: .sun, highlight: true)
-                        CardView(card: .fish, highlight: true)
-                        CardView(card: .fish, highlight: true)
-                    }
-                }
-                
-                VStack {
-                    Text("Four of a Kind")
-                    HStack {
-                        CardView(card: .pelican, highlight: true)
-                        CardView(card: .pelican, highlight: true)
-                        CardView(card: .pelican, highlight: true)
-                        CardView(card: .pelican, highlight: true)
-                        CardView(card: .fish)
-                    }
-                }
-                
-                VStack {
-                    Text("Five of a Kind")
-                    HStack {
-                        CardView(card: .turtle, highlight: true)
-                        CardView(card: .turtle, highlight: true)
-                        CardView(card: .turtle, highlight: true)
-                        CardView(card: .turtle, highlight: true)
-                        CardView(card: .turtle, highlight: true)
-                    }
+                    .padding(.bottom, 20)
+                    .padding(.horizontal, 20)
                 }
             }
-            .padding(60)
+            .padding(.vertical, 60)
         }
     }
 }

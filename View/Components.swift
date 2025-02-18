@@ -19,10 +19,10 @@ struct CardView: View {
 //                .foregroundStyle(showing ? .white : Color(red: 0.8, green: 0.5, blue: 0.1))
             RadialGradient(colors: [
                 (showing ?  .white:
-                            .teal),
+                    Color("Trees")),
                 (showing ?  (highlight ?
-                                .green:
-                                Color(red: 0.8, green: 0.5, blue: 0.1)):
+                                Color("TreesLight"):
+                                Color("Supplement")):
                             .gray)
             ],
             center: .center, startRadius: 0, endRadius: 180)
@@ -98,15 +98,16 @@ struct Token: View {
     var token: some View {
         ZStack {
             Circle()
-                .foregroundColor(.white)
-            
+                .fill(.white)
             Circle()
-                .foregroundColor(.purple)
-                .padding(3)
+                .fill(Color("Obsidian"))
+                .padding(2)
             Image("Token")
                 .resizable()
                 .scaledToFit()
                 .padding(12)
+//            Circle()
+//                .fill(.black.opacity(0.3))
         }
         .frame(width: 50, height: 50)
     }
@@ -132,20 +133,25 @@ struct Figures: View {
             if style == .vertical {
                 VStack {
                     Spacer()
+                    CircleButton(systemName: "arrow.up", color: Color("Base"), dimension: 50)
+                    Spacer()
                     ForEach(Card.allCases) { rank in
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundStyle(.white)
+                                .fill(.white)
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color("Base").opacity(0.2))
                             Image(rank.description)
                                 .resizable()
                                 .scaledToFit()
                                 .padding(2)
                         }
-                        .frame(width: 60, height: 60)
+                        .frame(width: 55, height: 55)
                         Spacer()
                     }
+                    CircleButton(systemName: "arrow.down", color: Color("Base"), dimension: 50)
+                    Spacer()
                 }
-                .frame(width: 50, height: 500)
             } else {
                 HStack {
                     ForEach(Card.allCases) { rank in
@@ -157,11 +163,29 @@ struct Figures: View {
                                 .scaledToFit()
                                 .padding(2)
                         }
-                        .frame(width: 60, height: 60)
+                        .frame(width: 55, height: 55)
                     }
                 }
-                .frame(height: 60)
             }
         }
+    }
+}
+
+struct TextBox: View {
+    var text: String
+    var color: Color = .white
+    var multplier: CGFloat = 1
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.black.opacity(0.2), lineWidth: 5)
+                .fill(color)
+            
+            Text(text)
+                .font(.custom("Mayan", size: 30))
+                .foregroundStyle(.black)
+        }
+        .frame(width: 350 * multplier, height: 180 * multplier)
     }
 }

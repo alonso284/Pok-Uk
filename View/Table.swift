@@ -9,18 +9,25 @@ import SwiftUI
 
 extension Game {
     var Table: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 5) {
             BettingOptions
             ZStack {
                 // Green Background
-                RadialGradient(colors: [Color(red: 0.2, green: 0.6, blue: 0.4), .black], center: .center, startRadius: 0, endRadius: 1800)
+                Color.white
+                RadialGradient(colors: [Color("Supplement"), .black], center: .center, startRadius: 200, endRadius: 1800)
+                    .opacity(0.85)
+//                Image("Base")
+//                    .resizable()
+//                    .scaledToFill()
+//                Color("Base").opacity(0.8)
+                
                 HStack {
                     Spacer()
                     Figures()
                     Spacer()
                     // Cards
                     TableCenter
-                        .padding(.horizontal)
+                        .padding()
                     Spacer()
                     Streak
                     Spacer()
@@ -39,24 +46,28 @@ extension Game {
             Text("90")
                 .font(.custom("Mayan", size: 40))
                 .foregroundStyle(.white)
-                .padding(.bottom)
             Spacer()
-            RoundedRectangle(cornerRadius:15)
-                .fill(
-                    LinearGradient(
-                        gradient: Gradient(colors: [.yellow, .orange, .red]),
-                        startPoint: .bottom,
-                        endPoint: .top
+            ZStack {
+                RoundedRectangle(cornerRadius:15)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [.yellow, .orange, .red]),
+                            startPoint: .bottom,
+                            endPoint: .top
+                        )
                     )
-                )
-                .stroke(Color.white.opacity(0.5), lineWidth: 12)
-            Image(systemName: "flame.fill")
-                .foregroundStyle(.orange)
-                .font(.system(size: 50))
-                .padding(.top)
+                    .stroke(Color.white.opacity(0.8), lineWidth: 5)
+                RoundedRectangle(cornerRadius:15)
+                    .fill(
+                        Color("Base").opacity(0.6)
+                    )
+                
+            }
+            .padding(.vertical)
+            CircleButton(systemName: "flame", color: Color("Base"), dimension: 50)
             Spacer()
         }
-        .frame(width: 50, height: 500)
+        .frame(width: 50)
     }
 
 
@@ -68,7 +79,7 @@ extension Game {
                 Spacer()
                 // Buttons and Messages
                 MiddleTable
-                    .frame(height: 280)
+                    .frame(height: 200)
                 Spacer()
                 PlayerCards
                 // Player
@@ -84,26 +95,26 @@ extension Game {
     
     var BettingOptions: some View {
         ZStack {
-            Color(.purple)
-                .opacity(0.6)
+            Color("Supplement")
+//                .opacity(0.6)
             HStack {
                 // FIXME: Bet size
-                Token(description: ("Bet", pokerEngine.bet, false))
+                Token(description: ("Wager", pokerEngine.bet, false))
                 Spacer()
-                CircleButton(systemName: "arrow.down", color: .blue)
+                CircleButton(systemName: "arrow.down", color: Color("TreesLight"))
                     .onTapGesture {
                         pokerEngine.decreaseBet()
                     }
                     .disabled(pokerEngine.roundStarted)
-                CircleButton(systemName: "arrow.up", color: .blue)
+                CircleButton(systemName: "arrow.up", color: Color("TreesLight"))
                     .onTapGesture {
                         pokerEngine.increaseBet()
                     }
                     .disabled(pokerEngine.roundStarted)
                 // FIXME: add funcionality (make previous bet
-                CircleButton(systemName: "repeat.1.ar", color: .yellow)
+                CircleButton(systemName: "repeat.1.ar", color: Color("Base"))
 //                    CircleButton(systemName: "xmark.circle", color: .orange)
-                CircleButton(systemName: "trash", color: .red)
+                CircleButton(systemName: "trash", color: Color("Accent"))
                     .onTapGesture {
                         pokerEngine.resetBet()
                     }
@@ -116,8 +127,8 @@ extension Game {
     var PlayerVariables: some View {
         // FIXME: Get rid of lower part that is light purple
         ZStack {
-            Color(.purple)
-                .opacity(0.6)
+            Color("Supplement")
+                .opacity(0.8)
             HStack {
                 Token(description: ("Score", pokerEngine.points, true))
                 Spacer()
@@ -178,21 +189,21 @@ extension Game {
     var MiddleTable: some View {
         VStack {
             // Final Result
-            if let playerHand = pokerEngine.playerHand, let dealerHand = pokerEngine.dealerHand {
+            if let _ = pokerEngine.playerHand, let _ = pokerEngine.dealerHand {
                 Group {
-                    HandLabel(hand: dealerHand.hand)
-//                        .padding()
+//                    HandLabel(hand: dealerHand.hand)
                     Spacer()
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(.bar.opacity(0.4))
+                            .fill(Color("Base").opacity(0.3))
+                            .stroke(Color.black.opacity(0.2), lineWidth: 4)
                             .frame(maxWidth: 420, maxHeight: 120)
                         HStack {
-                            Text(pokerEngine.buttonMessage)
+                            Text("Try Again")
                                 .font(.custom("Mayan", size: 45))
-                                .foregroundStyle(.black)
+                                .foregroundStyle(.white)
                                 .padding(.trailing, 5)
-                            CircleButton(systemName: "repeat", color: .blue)
+                            CircleButton(systemName: "repeat", color: Color("Trees"))
                         }
                         
                     }
@@ -208,10 +219,9 @@ extension Game {
                         pokerEngine.startRound()
                     }
                     Spacer()
-                    HandLabel(hand: playerHand.hand)
-//                        .padding()
+//                    HandLabel(hand: playerHand.hand)
                 }
-                // Draw / Hold Buttons
+                // Draw & Hold Buttons
             } else {
                 Spacer()
                 Button(action: {
@@ -220,18 +230,21 @@ extension Game {
                 }, label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.black.opacity(0.2), lineWidth: 5)
+                            .fill(Color("Base").opacity(pokerEngine.bet == 0 ? 0.1 : 0.3))
                             .frame(maxWidth: 420, maxHeight: 120)
-//                            .foregroundStyle(Color.orange)
+                            
                         VStack {
                             Text(pokerEngine.buttonMessage)
                                 .font(.custom("Mayan", size: 40))
+                                .foregroundStyle(.white)
                             
-                            Text(pokerEngine.bet == 0 ? "Place a bet to play":
-                                    (pokerEngine.playerSelected > 0 ? "Change the selected cards": "Keep all current cards"))
-                                .font(.custom("Mayan", size: 20))
+//                            Text(pokerEngine.bet == 0 ? "Place a bet to play":
+//                                    (pokerEngine.playerSelected > 0 ? "Change the selected cards": "Keep all current cards"))
+//                                .font(.custom("Mayan", size: 20))
                             
                         }
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.white)
                     }
                 })
                 .disabled(pokerEngine.bet == 0)
@@ -266,7 +279,9 @@ extension Game {
 
 
 #Preview {
-    Game()
+    NavigationStack {
+        Game()
+    }
 }
 
 

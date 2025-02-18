@@ -10,11 +10,12 @@ import SwiftUI
 extension Game {
     var PauseMenu: some View {
         ZStack {
-            Color.cyan
+            Color("Supplement").opacity(0.8)
             
             VStack {
                 Spacer()
-                Text("FIXME: add image")
+                Text("Pok'Uk")
+                    .font(.custom("Mayan", size: 100))
                 Spacer()
                 Stats
                 Spacer()
@@ -22,6 +23,7 @@ extension Game {
                 Spacer()
             }
         }
+        .foregroundStyle(.white)
     }
     
     var Stats: some View {
@@ -29,7 +31,7 @@ extension Game {
             HStack {
                 Text("Score: "); Spacer(); Text("\(pokerEngine.points)")
             }
-            .font(.largeTitle)
+            .font(.custom("Mayan", size: 60))
             .frame(width: 350)
             .padding()
             Group {
@@ -43,7 +45,7 @@ extension Game {
                     Text("Score: "); Spacer(); Text("\(pokerEngine.points)")
                 }
             }
-            .font(.title)
+            .font(.custom("Mayan", size: 40))
             .frame(width: 300)
             .padding(1)
         }
@@ -60,7 +62,7 @@ extension Game {
                         dismiss()
                     }, label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.red)
+                            .foregroundStyle(Color("Accent"))
                     })
                     Spacer()
                     // Restart
@@ -68,7 +70,7 @@ extension Game {
 //                        restart()
                     }, label: {
                         Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill")
-                            .foregroundStyle(.yellow)
+                            .foregroundStyle(Color("Base"))
                     })
                     Spacer()
                     // Resume
@@ -77,16 +79,15 @@ extension Game {
                         paused = false
                     }, label: {
                         Image(systemName: "play.circle.fill")
-                            .foregroundStyle(.green)
+                            .foregroundStyle(Color("TreesLight"))
                     })
                     Spacer()
                     Spacer()
                 }
                 .font(.system(size: 80))
             }
-            .foregroundStyle(.indigo)
             .padding()
-            .background(Color(.blue))
+            .background(Color("Supplement"))
         }
     }
 }

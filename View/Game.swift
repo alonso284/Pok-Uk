@@ -30,6 +30,7 @@ struct Game: View {
     var body: some View {
         ZStack {
             Color(.black)
+            Color("Supplement").opacity(0.8)
             VStack(spacing: 0) {
                 Croupier
                 Table
@@ -53,17 +54,17 @@ struct Game: View {
                 Button(action: {
                     paused.toggle()
                 }) {
-                    CircleButton(systemName: "pause", color: .orange)
+                    CircleButton(systemName: "pause", color: Color("Supplement"), dimension: 60)
                 }
                 .disabled(paused)
             })
             
-            // AR
+            // Hands
             ToolbarItem(placement: .topBarTrailing, content: {
                 Button(action: {
-                    // FIXME
+                    help.toggle()
                 }) {
-                    CircleButton(systemName: "arkit", color: .red)
+                    CircleButton(systemName: "folder", color: Color("Supplement"), dimension: 60)
                 }
                 .disabled(paused)
             })
@@ -73,7 +74,7 @@ struct Game: View {
                 Button(action: {
                     help.toggle()
                 }) {
-                    CircleButton(systemName: "menucard", color: .orange)
+                    CircleButton(systemName: "questionmark", color: Color("Supplement"), dimension: 60)
                 }
                 .disabled(paused)
             })

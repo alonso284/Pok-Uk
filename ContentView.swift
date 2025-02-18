@@ -10,7 +10,7 @@ struct ContentView: View {
 
     // variables for moving background
     let backgroundImageName = "Background"
-    let animationDuration: Double = 30
+    let animationDuration: Double = 100
     @State private var offset: CGFloat = 0
     
     var body: some View {
@@ -58,15 +58,16 @@ struct ContentView: View {
                                 .padding(.top, 30)
                                 .padding(.vertical, 80)
                                 .frame(maxWidth: .infinity)
-                                .background(Color.orange.opacity(0.4))
+                                .background(Color("Base").opacity(0.4))
                             
                             NavigationLink(destination: Game().navigationBarBackButtonHidden(true)) {
                                 Text("Play")
                                     .font(.custom("Mayan", size: 80))
-                                    .foregroundStyle(.primary)
-                                    .padding(.vertical, 40)
+                                    .foregroundStyle(Color("Base"))
+                                    .padding(.vertical, 44)
                                     .frame(maxWidth: .infinity)
-                                    .background(Color.purple.opacity(0.2))
+                                    .background(Color("Trees").opacity(0.2))
+                                    
                             }
                             
                         }

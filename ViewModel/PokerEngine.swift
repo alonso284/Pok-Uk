@@ -53,11 +53,11 @@ class PokerEngine: ObservableObject {
     var buttonMessage: String {
         switch endGameState {
         case .win:
-            return "You Win"
+            return "I will get you next time!"
         case .lose:
-            return "You Lose"
+            return "Better luck next time!"
         case .draw:
-            return "Draw!"
+            return "It's a draw!"
         case nil:
             if  playerSelected > 0
             { return "Draw" }
