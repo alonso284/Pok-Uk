@@ -25,7 +25,7 @@ struct CardView: View {
                                 Color("Supplement")):
                             .gray)
             ],
-            center: .center, startRadius: 0, endRadius: 180)
+            center: .center, startRadius: 0, endRadius: 100)
                 .ignoresSafeArea()
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             if !showing {
@@ -132,9 +132,9 @@ struct Figures: View {
         Group {
             if style == .vertical {
                 VStack {
-                    Spacer()
-                    CircleButton(systemName: "arrow.up", color: Color("Base"), dimension: 50)
-                    Spacer()
+//                    Spacer()
+//                    CircleButton(systemName: "arrow.up", color: Color("Base"), dimension: 50)
+//                    Spacer()
                     ForEach(Card.allCases) { rank in
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -147,25 +147,32 @@ struct Figures: View {
                                 .padding(2)
                         }
                         .frame(width: 55, height: 55)
-                        Spacer()
+                        .padding(.vertical, 5)
+//                        Spacer()
                     }
-                    CircleButton(systemName: "arrow.down", color: Color("Base"), dimension: 50)
-                    Spacer()
+//                    CircleButton(systemName: "arrow.down", color: Color("Base"), dimension: 50)
+//                    Spacer()
                 }
             } else {
                 HStack {
-                    ForEach(Card.allCases) { rank in
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundStyle(.white)
-                            Image(rank.description)
-                                .resizable()
-                                .scaledToFit()
-                                .padding(2)
+//                    ForEach(Card.allCases) { rank in
+                        ForEach(Card.allCases) { rank in
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(.white)
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color("Base").opacity(0.2))
+                                Image(rank.description)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .padding(2)
+                            }
+                            .frame(width: 45, height: 45)
+                            .padding(.horizontal, 2)
+    //                        Spacer()
                         }
-                        .frame(width: 55, height: 55)
                     }
-                }
+//                }
             }
         }
     }
@@ -185,7 +192,46 @@ struct TextBox: View {
             Text(text)
                 .font(.custom("Mayan", size: 30))
                 .foregroundStyle(.black)
+                .padding()
         }
         .frame(width: 350 * multplier, height: 180 * multplier)
     }
+}
+
+struct CustomTextBox: View {
+    var text: String
+    
+    var height: CGFloat = 240
+    var width: CGFloat = 520
+    var textSize: CGFloat = 120
+    
+    var backgroundColor: Color = Color("Base")
+    var strokeColor: Color = Color("Trees")
+    var strokeSize: CGFloat = 15
+    
+    var body: some View {
+        ZStack {
+            
+            Image("Base")
+                .resizable()
+                .frame(width: width, height: height)
+                .clipped()
+//                                    .scaledToFit()
+            
+            
+            RoundedRectangle(cornerRadius: strokeSize)
+                .stroke(strokeColor, lineWidth: strokeSize)
+                .fill(backgroundColor.opacity(0.3))
+            
+            Text(text)
+                .font(.custom("Mayan", size: textSize))
+                .foregroundStyle(.black)
+                .padding(.top, 0.15 * height)
+        }
+        .frame(width: width, height: height)
+    }
+}
+
+#Preview {
+    TextBox(text: "Pok'Uk", color: Color("Base"), multplier: 1.2)
 }

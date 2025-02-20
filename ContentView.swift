@@ -10,7 +10,7 @@ struct ContentView: View {
 
     // variables for moving background
     let backgroundImageName = "Background"
-    let animationDuration: Double = 100
+    let animationDuration: Double = 120
     @State private var offset: CGFloat = 0
     
     var body: some View {
@@ -39,12 +39,12 @@ struct ContentView: View {
                         // Functions for shifting background
                         .offset(x: offset)
                         .onAppear {
-                            offset = 0
+                            offset = -scaledWidth
                             withAnimation(
                                 Animation.linear(duration: animationDuration)
                                     .repeatForever(autoreverses: false)
                             ) {
-                                offset = -scaledWidth
+                                offset = 2 * -scaledWidth
                             }
                         }
                         Color(white: 0, opacity: 0.2)
@@ -53,22 +53,46 @@ struct ContentView: View {
                         // FIXME: They are not centered
                         
                         VStack(spacing: 0) {
-                            Text("Pok'Uk")
-                                .font(.custom("Mayan", size: 120))
-                                .padding(.top, 30)
-                                .padding(.vertical, 80)
-                                .frame(maxWidth: .infinity)
-                                .background(Color("Base").opacity(0.4))
+//                            Text("Pok'Uk")
+//                                .font(.custom("Mayan", size: 120))
+//                                .padding(.top, 30)
+//                                .padding(.vertical, 80)
+//                                .frame(maxWidth: .infinity)
+//                                .background(Color("Base").opacity(0.4))
+//                            TextBox(text: "Pok'Uk", color: Color("Base"), multplier: 1.2)
+                            CustomTextBox(text: "Pok'Uk")
+                            
                             
                             NavigationLink(destination: Game().navigationBarBackButtonHidden(true)) {
-                                Text("Play")
-                                    .font(.custom("Mayan", size: 80))
-                                    .foregroundStyle(Color("Base"))
-                                    .padding(.vertical, 44)
-                                    .frame(maxWidth: .infinity)
-                                    .background(Color("Trees").opacity(0.2))
+//                                Text("Play")
+//                                    .font(.custom("Mayan", size: 80))
+//                                    .foregroundStyle(Color("Base"))
+//                                    .padding(.top, 80)
+//                                    .frame(maxWidth: .infinity)
+////                                    .background(Color("Trees").opacity(0.2))
+                                
+                                ZStack {
+                                    
+//                                    Image("Base")
+//                                        .resizable()
+//                                        .frame(width: 240, height: 120)
+//                                        .clipped()
+                                    
+                                    Color(.white)
+                                    
+                                    
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(Color("Trees"), lineWidth: 15)
+                                        .fill(Color("TreesLight").opacity(0.8))
+                                    
+                                    Image(systemName: "play.circle.fill")
+                                        .foregroundStyle(Color("TreesLight"))
+                                        .font(.system(size: 80, weight: .bold))
+                                }
+                                .frame(width: 200, height: 120)
                                     
                             }
+                            .padding(.top, 80)
                             
                         }
                         // FIXME: NOW
@@ -79,9 +103,6 @@ struct ContentView: View {
                     .ignoresSafeArea()
                 }
             }
-        }
-        .onAppear {
-            offset = 0
         }
     }
 }

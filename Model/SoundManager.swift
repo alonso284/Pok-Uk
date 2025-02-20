@@ -14,7 +14,7 @@ class SoundManager {
     
     private var players: [String: AVAudioPlayer] = [:] // Store multiple players
     
-    func playLoop(forResource resource: String, volume: Float, loop: Bool = false) {
+    func playLoop(forResource resource: String, volume: Float, times: Int = 0) {
         guard let musicURL = Bundle.main.url(forResource: resource, withExtension: "mp3") else {
             print("Sound file '\(resource).mp3' not found!")
             return
@@ -22,7 +22,7 @@ class SoundManager {
         
         do {
             let player = try AVAudioPlayer(contentsOf: musicURL)
-            player.numberOfLoops = (loop ? -1 : 0) // Infinite loop
+            player.numberOfLoops = times // Infinite loop
             player.volume = volume // Adjust volume
             player.prepareToPlay()
             player.play()
@@ -40,10 +40,10 @@ class SoundManager {
     }
     
     func playBackgroundMusic() {
-        playLoop(forResource: "Music", volume: 0.5) // Play music immediately
+        playLoop(forResource: "Music", volume: 0.3, times: -1) // Play music immediately
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.playLoop(forResource: "Ambient", volume: 0.3) // Delay ambient by 5 sec
+            self.playLoop(forResource: "Ambient", volume: 0.1) // Delay ambient by 5 sec
         }
     }
     

@@ -11,11 +11,24 @@ import Foundation
 // FIXME: Move to another class
 class PokerEngine: ObservableObject {
     
+    let maxBet: UInt = 25
+    
     // FIXME: Move to engine object
-    @Published private var _points:  UInt = 99
+    @Published private var _points:  UInt = 10
     var points : UInt { return self._points }
     @Published private var _bet:      UInt = 0
     var bet : UInt { return self._bet }
+    
+    @Published private var _won:  UInt = 0
+    var won : UInt { return self._won }
+    @Published private var _lost:      UInt = 0
+    var lost : UInt { return self._lost }
+    @Published private var _drawn:      UInt = 0
+    var drawn : UInt { return self._drawn }
+    
+    var handsPlayed : UInt { return self._drawn + self._won + self._lost }
+    
+    var previousBet: UInt = 0
     
     @Published var playerCards: [(Card, Bool)] = []
     @Published var dealerCards: [(Card, Bool)] = []
@@ -50,12 +63,26 @@ class PokerEngine: ObservableObject {
         }
     }
     
-    var buttonMessage: String {
+    var croupierMessage: String {
         switch endGameState {
         case .win:
             return "I will get you next time!"
         case .lose:
             return "Better luck next time!"
+        case .draw:
+            return "It's a draw!"
+        case nil:
+            return ""
+        }
+        
+    }
+    
+    var buttonMessage: String {
+        switch endGameState {
+        case .win:
+            return "You Win!"
+        case .lose:
+            return "You Lose!"
         case .draw:
             return "It's a draw!"
         case nil:
@@ -106,23 +133,37 @@ class PokerEngine: ObservableObject {
         if let playerHand, let dealerHand {
             // Win
             if compareHands(lhs: dealerHand, rhs: playerHand)  {
-                self._points += self._bet
+                _won += 1
+                for i in 1...Int(self._bet * 2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.2) {
+                        SoundManager.instance.playLoop(forResource: "Coin", volume: 1, times: 1)
+                        self._points += 1
+                    }
+                }
             }
             // Lose
             else if compareHands(lhs: playerHand, rhs: dealerHand) {
-                self._bet = 0
+                _lost += 1
+            // Draw
+            } else {
+                for i in 1...Int(self._bet) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.2) {
+                        SoundManager.instance.playLoop(forResource: "Coin", volume: 1, times: 1)
+                        self._points += 1
+                    }
+                }
+                _drawn += 1
             }
         }
-        // Draw
-        self._points += self._bet
         self._bet = 0
-        return
+        startRound()
     }
     
     func increaseBet() {
-        if playerHand == nil && points > 0 {
+        if playerHand == nil && points > 0 && bet < maxBet {
             _bet += 1
             _points -= 1
+            SoundManager.instance.playLoop(forResource: "Coin", volume: 1)
         }
     }
     
@@ -130,6 +171,16 @@ class PokerEngine: ObservableObject {
         if playerHand == nil && bet > 0 {
             _bet -= 1
             _points += 1
+            SoundManager.instance.playLoop(forResource: "Coin", volume: 1)
+        }
+    }
+    
+    func repeatBet() {
+        if playerHand == nil && points + bet >= previousBet {
+            resetBet()
+            _bet += previousBet
+            _points -= previousBet
+            SoundManager.instance.playLoop(forResource: "Coin", volume: 1)
         }
     }
     
@@ -137,6 +188,7 @@ class PokerEngine: ObservableObject {
         if playerHand == nil {
             _points += bet
             _bet = 0
+            SoundManager.instance.playLoop(forResource: "Coin", volume: 1)
         }
     }
     
@@ -145,9 +197,6 @@ class PokerEngine: ObservableObject {
             if playerCards[index].1 {
                 if let replacement = deck.dealOneCard() {
                     playerCards[index].0 = replacement
-                    print("here")
-                } else {
-                    print("wtf")
                 }
                 playerCards[index].1 = false
             }
@@ -156,12 +205,14 @@ class PokerEngine: ObservableObject {
         self.playerHand = self.detectHand(cards: playerCards.map { $0.0 })
         self.dealerHand = self.detectHand(cards: dealerCards.map { $0.0 })
         
+        previousBet = bet
+        
         // FIXME: Sort accordingly
         switch endGameState {
         case .win:
-            SoundManager.instance.playLoop(forResource: "Win", volume: 0.8)
-        case .lose:
             SoundManager.instance.playLoop(forResource: "Lose", volume: 0.8)
+        case .lose:
+            SoundManager.instance.playLoop(forResource: "Win", volume: 0.8)
         default:
             return
         }

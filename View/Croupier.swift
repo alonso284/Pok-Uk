@@ -11,17 +11,17 @@ extension Game {
     
     var croupierText: String {
         if let _ = pokerEngine.playerHand, let _ = pokerEngine.dealerHand {
-            return pokerEngine.buttonMessage
+            return pokerEngine.croupierMessage
         }
         else {
             if pokerEngine.bet == 0 {
                 return "Place a bet to play."
             } else {
-                if pokerEngine.playerSelected > 0 {
-                    return "Draw to change the selected cards"
-                } else {
-                    return "Hold to keep all current cards."
-                }
+//                if pokerEngine.playerSelected > 0 {
+                    return "Draw to swap selected cards; hold to keep your hand."
+//                } else {
+//                    return "and hold to keep all current cards."
+//                }
             }
         }
     }

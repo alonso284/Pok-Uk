@@ -29,8 +29,8 @@ extension Game {
                     TableCenter
                         .padding()
                     Spacer()
-                    Streak
-                    Spacer()
+//                    Streak
+//                    Spacer()
                 }
                 .padding()
             }
@@ -101,23 +101,31 @@ extension Game {
                 // FIXME: Bet size
                 Token(description: ("Wager", pokerEngine.bet, false))
                 Spacer()
-                CircleButton(systemName: "arrow.down", color: Color("TreesLight"))
-                    .onTapGesture {
-                        pokerEngine.decreaseBet()
-                    }
-                    .disabled(pokerEngine.roundStarted)
-                CircleButton(systemName: "arrow.up", color: Color("TreesLight"))
-                    .onTapGesture {
-                        pokerEngine.increaseBet()
-                    }
-                    .disabled(pokerEngine.roundStarted)
-                // FIXME: add funcionality (make previous bet
-                CircleButton(systemName: "repeat.1.ar", color: Color("Base"))
-//                    CircleButton(systemName: "xmark.circle", color: .orange)
-                CircleButton(systemName: "trash", color: Color("Accent"))
-                    .onTapGesture {
-                        pokerEngine.resetBet()
-                    }
+                
+                // Decrease
+
+                Button(action: {
+                    pokerEngine.decreaseBet()
+                    SoundManager.instance.playLoop(forResource: "Coin", volume: 1)
+                }, label: {CircleButton(systemName: "arrow.down", color: Color("TreesLight"))})
+                    .disabled(pokerEngine.roundStarted || pokerEngine.bet <= 0)
+                // Increase
+                Button(action: {
+                    pokerEngine.increaseBet()
+                }, label: {CircleButton(systemName: "arrow.up", color: Color("TreesLight"))})
+                .disabled(pokerEngine.roundStarted || pokerEngine.points == 0 || pokerEngine.bet >= pokerEngine.maxBet)
+                // Repeat
+                Button(action: {
+                    pokerEngine.repeatBet()
+                    
+                }, label: {CircleButton(systemName: "repeat", color: Color("Base"))})
+                    .disabled(pokerEngine.roundStarted || pokerEngine.points + pokerEngine.bet < pokerEngine.previousBet)
+                
+                // Reset
+                Button(action: {
+                    pokerEngine.resetBet()
+                    
+                }, label: {CircleButton(systemName: "trash", color: Color("Accent"))})
                     .disabled(pokerEngine.roundStarted)
             }
             .padding()
@@ -130,10 +138,13 @@ extension Game {
             Color("Supplement")
                 .opacity(0.8)
             HStack {
-                Token(description: ("Score", pokerEngine.points, true))
+                Token(description: ("Tokens", pokerEngine.points, true))
                 Spacer()
                 // FIXME: Put correct amount and maybe change the dispalued number
-                Token(description: ("Peak", pokerEngine.points, true))
+//                Token(description: ("Peak", pokerEngine.points, true))
+                Text("v1.3.0")
+                    .font(.custom("Mayan", size: 30))
+                    .foregroundStyle(.white)
             }
             .padding(.bottom)
             .padding()
@@ -189,7 +200,7 @@ extension Game {
     var MiddleTable: some View {
         VStack {
             // Final Result
-            if let _ = pokerEngine.playerHand, let _ = pokerEngine.dealerHand {
+            if pokerEngine.endGameState != nil {
                 Group {
 //                    HandLabel(hand: dealerHand.hand)
                     Spacer()
@@ -199,7 +210,7 @@ extension Game {
                             .stroke(Color.black.opacity(0.2), lineWidth: 4)
                             .frame(maxWidth: 420, maxHeight: 120)
                         HStack {
-                            Text("Try Again")
+                            Text(pokerEngine.buttonMessage)
                                 .font(.custom("Mayan", size: 45))
                                 .foregroundStyle(.white)
                                 .padding(.trailing, 5)
@@ -216,7 +227,7 @@ extension Game {
                     .opacity(isVisible ? 1 : 0.00001)
                     .onTapGesture {
                         pokerEngine.endRound()
-                        pokerEngine.startRound()
+                        
                     }
                     Spacer()
 //                    HandLabel(hand: playerHand.hand)

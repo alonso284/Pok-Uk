@@ -1,94 +1,139 @@
 //
-//  HelpCard.swift
+//  SwiftUIView.swift
 //  Pok’Uk
 //
-//  Created by Alonso Huerta on 10/02/25.
+//  Created by Alonso Huerta on 19/02/25.
 //
+
 import SwiftUI
 
 struct HelpMenu: View {
-    let hands: [(name: String, cards: [(highlight: Bool, card: Card)])] = [
-        ("High Card", [
-            (true, .sun),
-            (false, .eagle),
-            (false, .fish),
-            (false, .pelican),
-            (false, .turtle)
-        ]),
-        ("Pair", [
-            (true, .fish),
-            (true, .fish),
-            (false, .pelican),
-            (false, .mask),
-            (false, .eagle)
-        ]),
-        ("Two Pair", [
-            (true, .mask),
-            (true, .mask),
-            (true, .pelican),
-            (true, .pelican),
-            (false, .sun)
-        ]),
-        ("Three of a Kind", [
-            (true, .eagle),
-            (true, .eagle),
-            (true, .eagle),
-            (false, .sun),
-            (false, .mask)
-        ]),
-        ("Full House", [
-            (true, .sun),
-            (true, .sun),
-            (true, .sun),
-            (true, .fish),
-            (true, .fish)
-        ]),
-        ("Four of a Kind", [
-            (true, .pelican),
-            (true, .pelican),
-            (true, .pelican),
-            (true, .pelican),
-            (false, .fish)
-        ]),
-        ("Five of a Kind", [
-            (true, .turtle),
-            (true, .turtle),
-            (true, .turtle),
-            (true, .turtle),
-            (true, .turtle)
-        ])
-    ]
+    @Binding var opened: Bool
     
     var body: some View {
         ZStack {
+            Color.white
             Color("Supplement").opacity(0.8)
             ScrollView {
-                Text("Ranked Hands")
+                Text("How To Play")
                     .font(.custom("Mayan", size: 60))
-                    .foregroundStyle(.white)
-                    .padding(.bottom, 40)
+                    .padding(.top, 10)
+                    .padding(.vertical, 50)
+                    .frame(maxWidth: .infinity)
+                    .background(Color("Supplement").opacity(0.4))
                 
-                ForEach(hands, id: \ .name) { hand in
-                    VStack {
-                        Text(hand.name)
-                            .font(.custom("Mayan", size: 40))
-                            .foregroundStyle(.white)
-                        HStack {
-                            ForEach(hand.cards, id: \ .card) { card in
-                                CardView(card: card.card, highlight: card.highlight)
-                                
-                            }
-                        }
+                VStack(alignment: .leading) {
+                    
+
+                    VStack(alignment: .center) {
+                        Image("Icon")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 150, height: 150)
+                            .padding()
+                            .cornerRadius(80)
+                        Text("Play Picture Poker with Halak, your friendly Mayan priest!")
                     }
-                    .padding(.bottom, 20)
-                    .padding(.horizontal, 20)
+                    
+                    
+                    Divider()
+                        .frame(height: 4)
+                        .background(Color.black.opacity(0.2))
+                        .padding()
+                    
+                    Text("1. Bet your Obsidian tokens against Halak.")
+                    
+                    HStack {
+                        Spacer()
+                        Token()
+                        Image(systemName: "forward.frame")
+                            .padding(.horizontal)
+                        CircleButton(systemName: "arrow.down", color: Color("TreesLight"))
+                        CircleButton(systemName: "arrow.up", color: Color("TreesLight"))
+                        CircleButton(systemName: "repeat", color: Color("Base"))
+                        CircleButton(systemName: "trash", color: Color("Accent"))
+                        Spacer()
+                    }
+                    .padding(.vertical)
+                    
+                    Divider()
+                        .frame(height: 4)
+                        .background(Color.black.opacity(0.2))
+                        .padding()
+                    
+                    Text("2. Hold or draw cards to beat him.")
+                    
+                    HStack {
+                        Spacer()
+                        CardView(card: .eagle)
+                        CardView(card: .turtle)
+                        CardView(card: .fish)
+                            .padding(.bottom, 50)
+                        CardView(card: .sun)
+                            .padding(.bottom, 50)
+                        CardView(card: .pelican)
+                        Spacer()
+                    }
+                    .padding(.vertical)
+                    
+                    Divider()
+                        .frame(height: 4)
+                        .background(Color.black.opacity(0.2))
+                        .padding()
+                    
+                    Text("3. Check the ranked cards to see how your hand stacks up.")
+                    
+                    HStack {
+                        Spacer()
+                        CircleButton(systemName: "folder", color: Color("Supplement"))
+                            .padding(.trailing, 4)
+                        Figures(style: .horizontal)
+                        Spacer()
+                    }
+                    .padding()
+                    
+                    Divider()
+                        .frame(height: 4)
+                        .background(Color.black.opacity(0.2))
+                        .padding()
+                    
+                    Text("4. Win, and you’ll double your bet. Lose, and Halak keeps your tokens.")
+
+                    HStack {
+                        Spacer()
+                        Token(description: (text: nil, amount: 10, number: true))
+                        Image(systemName: "plusminus")
+                        Spacer()
+                    }
+                    .padding(.vertical)
+                    
+                    Divider()
+                        .frame(height: 4)
+                        .background(Color.black.opacity(0.2))
+                        .padding()
+                    
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            opened.toggle()
+                        }, label: {
+                            CustomTextBox(text: "Close", height: 60, width: 120, textSize: 30, strokeSize: 5)
+                        })
+                        Spacer()
+                    }
+                    
+                    
                 }
+                .padding(.horizontal, 50)
+                .padding(.bottom, 40)
+                    
             }
-            .padding(.vertical, 60)
+            .font(.custom("Mayan", size: 30))
+            .foregroundStyle(.white)
         }
     }
 }
 
 #Preview {
-    HelpMenu()
+    HelpMenu(opened: .constant(true))
 }

@@ -15,7 +15,10 @@ import Combine
 struct Game: View {
     @Environment(\.dismiss) var dismiss
     @State var paused: Bool = false
-    @State var help: Bool = false
+    @State var rankedCards: Bool = false
+    // FIXME: Switch to true
+    @State var help: Bool = true
+    @State var achievements: Bool = false
     
     // Game stats
     @State var time:    Int = 0
@@ -54,7 +57,17 @@ struct Game: View {
                 Button(action: {
                     paused.toggle()
                 }) {
-                    CircleButton(systemName: "pause", color: Color("Supplement"), dimension: 60)
+                    CircleButton(systemName: "pause", color: Color("Supplement"))
+                }
+                .disabled(paused)
+            })
+            
+            // FIXME: Achievements 
+            ToolbarItem(placement: .topBarLeading, content: {
+                Button(action: {
+                    achievements.toggle()
+                }) {
+                    CircleButton(systemName: "trophy", color: Color("Supplement"))
                 }
                 .disabled(paused)
             })
@@ -62,9 +75,9 @@ struct Game: View {
             // Hands
             ToolbarItem(placement: .topBarTrailing, content: {
                 Button(action: {
-                    help.toggle()
+                    rankedCards.toggle()
                 }) {
-                    CircleButton(systemName: "folder", color: Color("Supplement"), dimension: 60)
+                    CircleButton(systemName: "folder", color: Color("Supplement"))
                 }
                 .disabled(paused)
             })
@@ -74,7 +87,7 @@ struct Game: View {
                 Button(action: {
                     help.toggle()
                 }) {
-                    CircleButton(systemName: "questionmark", color: Color("Supplement"), dimension: 60)
+                    CircleButton(systemName: "questionmark", color: Color("Supplement"))
                 }
                 .disabled(paused)
             })
@@ -83,8 +96,14 @@ struct Game: View {
             PauseMenu
                 .interactiveDismissDisabled()
         }
+        .sheet(isPresented: $rankedCards) {
+            RankedCards(opened: $rankedCards)
+        }
         .sheet(isPresented: $help) {
-            HelpMenu()
+            HelpMenu(opened: $help)
+        }
+        .sheet(isPresented: $achievements) {
+            Achievements
         }
         
     }

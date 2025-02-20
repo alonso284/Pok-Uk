@@ -16,6 +16,7 @@ let package = Package(
         .iOSApplication(
             name: "Pok’Uk",
             targets: ["AppModule"],
+            bundleIdentifier: "alonso284.PokUk",
             teamIdentifier: "4R4PJK8UFG",
             displayVersion: "1.0",
             bundleVersion: "1",

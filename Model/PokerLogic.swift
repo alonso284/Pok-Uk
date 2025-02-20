@@ -199,5 +199,5 @@ func compareHands(lhs: (PokerHand, [Card]), rhs: (PokerHand, [Card])) -> Bool {
         return lhs.0 < rhs.0
     }
     // If PokerHands are equal, compare the [Card] arrays lexicographically
-    return lhs.1.lexicographicallyPrecedes(rhs.1)
+    return rhs.1.lexicographicallyPrecedes(lhs.1)
 }
