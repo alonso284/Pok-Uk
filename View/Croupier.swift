@@ -27,15 +27,38 @@ extension Game {
     }
     
     var Options: some View {
-        VStack {
-            TextBox(text: croupierText)
-            HStack(spacing: 0) {
-                TextBox(text: "True", color: Color("TreesLight"), multplier: 0.5)
-                TextBox(text: "False", color: Color("Accent"), multplier: 0.5)
-                
+        VStack(spacing: 10) {
+            if let trivia = pokerEngine.fact {
+                CustomTextBox(text: "Take the trivia to reclaim your tokens!", height: 60, width: 380, textSize: 20, backgroundColor: Color("Base"), strokeSize: 2)
+                TextBox(text: pokerEngine.feedback ?? trivia.fact, textSize: 20, height: 200)
+                if pokerEngine.feedback == nil {
+                    HStack(spacing: 10) {
+                        Button(action: {
+                            pokerEngine.answerTrivia(answer: true)
+                        }, label: {
+                            CustomTextBox(text: "True", textColor: .white, height: 60, width: .infinity, textSize: 25, backgroundColor: Color("TreesLight"), strokeSize: 2)
+                        })
+                        Button(action: {
+                            pokerEngine.answerTrivia(answer: false)
+                        }, label: {
+                            CustomTextBox(text: "False", textColor: .white, height: 60, width: .infinity, textSize: 25, backgroundColor: Color("Accent"), strokeSize: 2)
+                        })
+                        
+                    }.frame(width: 380)
+                } else {
+                    Button(action: {
+                        pokerEngine.endTrivia()
+                    }, label: {
+                        CustomTextBox(text: "Continue", height: 60, width: .infinity, textSize: 20, strokeSize: 2)
+                    })
+                    .disabled(pokerEngine.givingTriviaReward)
+                    .frame(width: 380)
+                }
+            } else {
+                TextBox(text: croupierText)
             }
-            .opacity(0)
         }
+        .frame(width: 350)
         .padding(.top)
     }
     
@@ -49,7 +72,11 @@ extension Game {
                 Spacer()
                 HStack(spacing: 0) {
                     Spacer()
-                    Image(image)
+                    Image(
+                        pokerEngine.fact == nil ? image :
+                        (pokerEngine.emote == nil ? "thinking" :
+                        (pokerEngine.emote! ? "win" : "lose"))
+                    )
                         .resizable()
                         .scaledToFit()
                         .frame(height: 400)

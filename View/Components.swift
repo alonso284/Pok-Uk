@@ -74,7 +74,7 @@ struct Token: View {
                 }
                 Text(String(description.amount))
                     .foregroundStyle(.white)
-                    .frame(width: 60)
+                    .frame(minWidth: 60)
                     .font(.custom("Mayan", size: 40))
                 if description.number {
                     token()
@@ -169,26 +169,28 @@ struct Figures: View {
 
 struct TextBox: View {
     var text: String
-    var color: Color = .white
-    var multplier: CGFloat = 1
+    var textSize: CGFloat = 30
+    var height: CGFloat = 180
+    var width: CGFloat = 380
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.black.opacity(0.2), lineWidth: 5)
-                .fill(color)
+                .stroke(Color.black.opacity(0.5), lineWidth: 5)
+                .fill(.white)
             
             Text(text)
-                .font(.custom("Mayan", size: 30))
+                .font(.custom("Mayan", size: textSize))
                 .foregroundStyle(.black)
                 .padding()
         }
-        .frame(width: 350 * multplier, height: 180 * multplier)
+        .frame(width: width, height: height)
     }
 }
 
 struct CustomTextBox: View {
     var text: String
+    var textColor: Color = .black
     
     var height: CGFloat = 240
     var width: CGFloat = 520
@@ -208,11 +210,11 @@ struct CustomTextBox: View {
             
             RoundedRectangle(cornerRadius: strokeSize)
                 .stroke(strokeColor, lineWidth: strokeSize)
-                .fill(backgroundColor.opacity(0.3))
+                .fill(backgroundColor.opacity(0.6))
             
             Text(text)
                 .font(.custom("Mayan", size: textSize))
-                .foregroundStyle(.black)
+                .foregroundStyle(textColor)
                 .padding(.top, 0.15 * height)
         }
         .frame(width: width, height: height)
@@ -220,5 +222,5 @@ struct CustomTextBox: View {
 }
 
 #Preview {
-    TextBox(text: "Pok'Uk", color: Color("Base"), multplier: 1.2)
+    TextBox(text: "Pok'Uk")
 }

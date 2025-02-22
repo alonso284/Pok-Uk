@@ -1,0 +1,134 @@
+[
+	{
+		"fact": "The Maya civilization developed a fully functional written language.",
+		"answer": true,
+		"right": "Correct! The Maya had a complex hieroglyphic writing system.",
+		"wrong": "Incorrect. The Maya had one of the most advanced writing systems in the Americas."
+	},
+	{
+		"fact": "The Aztecs built their capital, Tenochtitlán, on an island in a lake.",
+		"answer": true,
+		"right": "Correct! Tenochtitlán was built on an island in Lake Texcoco.",
+		"wrong": "Incorrect. The Aztecs did build their capital on an island in a lake."
+	},
+	{
+		"fact": "The Olmecs are known for creating the first pyramids in Mesoamerica.",
+		"answer": false,
+		"right": "Correct! The first true pyramids in Mesoamerica were built by later civilizations like the Maya and Teotihuacanos.",
+		"wrong": "Incorrect. The Olmecs built large ceremonial centers but not true pyramids."
+	},
+	{
+		"fact": "The Mayan calendar predicted the end of the world in 2012.",
+		"answer": false,
+		"right": "Correct! The Mayan calendar marked the end of a cycle, not the end of the world.",
+		"wrong": "Incorrect. The Mayans never predicted the world would end in 2012."
+	},
+	{
+		"fact": "The Aztecs used cacao beans as currency.",
+		"answer": true,
+		"right": "Correct! The Aztecs valued cacao so highly that they used the beans as money.",
+		"wrong": "Incorrect. Cacao beans were indeed used as currency by the Aztecs."
+	},
+	{
+		"fact": "The Olmecs are famous for their colossal stone heads, which depict animals.",
+		"answer": false,
+		"right": "Correct! The colossal heads depict human rulers, not animals.",
+		"wrong": "Incorrect. The Olmec stone heads represent rulers, not animals."
+	},
+	{
+		"fact": "The Maya were the only Mesoamerican civilization to play a ball game.",
+		"answer": false,
+		"right": "Correct! The ball game was played by multiple Mesoamerican cultures, including the Olmecs and Aztecs.",
+		"wrong": "Incorrect. Many Mesoamerican civilizations, including the Olmecs and Aztecs, played the ball game."
+	},
+	{
+		"fact": "Quetzalcoatl was an important deity in both the Aztec and Maya religions.",
+		"answer": true,
+		"right": "Correct! Quetzalcoatl, known as Kukulkan to the Maya, was a major god in both cultures.",
+		"wrong": "Incorrect. Quetzalcoatl (Kukulkan) was worshipped in both Aztec and Maya mythology."
+	},
+	{
+		"fact": "The Toltecs were the direct ancestors of the Aztecs.",
+		"answer": true,
+		"right": "Correct! The Aztecs saw the Toltecs as their cultural predecessors.",
+		"wrong": "Incorrect. The Aztecs admired and were influenced by the Toltecs."
+	},
+	{
+		"fact": "The Maya civilization disappeared completely after the Spanish conquest.",
+		"answer": false,
+		"right": "Correct! Maya culture and people still exist today.",
+		"wrong": "Incorrect. The Maya civilization declined, but Maya people and culture persist today."
+	},
+	{
+		"fact": "The Aztecs referred to themselves as 'Mexica.'",
+		"answer": true,
+		"right": "Correct! The Aztecs called themselves the Mexica.",
+		"wrong": "Incorrect. The Aztecs' true name for themselves was 'Mexica.'"
+	},
+	{
+		"fact": "Chichen Itza was the capital of the Aztec Empire.",
+		"answer": false,
+		"right": "Correct! Chichen Itza was a major Maya city, not Aztec.",
+		"wrong": "Incorrect. Chichen Itza was a Maya city, not an Aztec capital."
+	},
+	{
+		"fact": "The Olmecs are sometimes called the 'mother culture' of Mesoamerica.",
+		"answer": true,
+		"right": "Correct! Many later Mesoamerican civilizations were influenced by the Olmecs.",
+		"wrong": "Incorrect. The Olmecs laid the groundwork for later Mesoamerican cultures."
+	},
+	{
+		"fact": "Aztec sacrifices were voluntary and never involved captives.",
+		"answer": false,
+		"right": "Correct! Many sacrifices were war captives or slaves.",
+		"wrong": "Incorrect. The Aztecs sacrificed many war captives."
+	},
+	{
+		"fact": "Mesoamerican pyramids were used primarily as tombs like those in Egypt.",
+		"answer": false,
+		"right": "Correct! Mesoamerican pyramids were mainly temples, not tombs.",
+		"wrong": "Incorrect. Mesoamerican pyramids served as religious and ceremonial centers."
+	},
+	{
+		"fact": "Teotihuacan was built by the Aztecs.",
+		"answer": false,
+		"right": "Correct! Teotihuacan was built long before the Aztecs.",
+		"wrong": "Incorrect. The Aztecs did not build Teotihuacan; they found it in ruins."
+	},
+	{
+		"fact": "The Maya had a concept of zero in their mathematics.",
+		"answer": true,
+		"right": "Correct! The Maya independently developed the concept of zero.",
+		"wrong": "Incorrect. The Maya were one of the first civilizations to use zero."
+	},
+	{
+		"fact": "The Aztec Empire was founded in the 12th century CE.",
+		"answer": false,
+		"right": "Correct! The Aztecs founded their empire in the 14th century CE.",
+		"wrong": "Incorrect. The Aztec Empire was established in the 14th century, not the 12th."
+	},
+	{
+		"fact": "The Mesoamerican ball game could sometimes end in human sacrifice.",
+		"answer": true,
+		"right": "Correct! In some cases, losing players or captains were sacrificed.",
+		"wrong": "Incorrect. Some versions of the game had sacrificial consequences."
+	},
+	{
+		"fact": "Tikal was one of the largest cities of the Aztec Empire.",
+		"answer": false,
+		"right": "Correct! Tikal was a major Maya city, not Aztec.",
+		"wrong": "Incorrect. Tikal was a Maya city, not part of the Aztec Empire."
+	},
+	{
+		"fact": "The Spanish conquest of the Aztecs was largely due to their superior numbers.",
+		"answer": false,
+		"right": "Correct! The Spanish had fewer soldiers but won due to alliances and disease.",
+		"wrong": "Incorrect. The Spanish won through alliances with native groups and disease."
+	},
+	{
+		"fact": "The Olmecs were the first Mesoamerican civilization to develop large-scale agriculture.",
+		"answer": true,
+		"right": "Correct! The Olmecs pioneered large-scale farming in Mesoamerica.",
+		"wrong": "Incorrect. The Olmecs were early agricultural innovators in Mesoamerica."
+	}
+]

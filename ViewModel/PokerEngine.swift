@@ -11,6 +11,8 @@ import SwiftUI
 
 class PokerEngine: ObservableObject {
     
+    @StateObject var triviaFacts = FactViewModel()
+    
     let maxBet: UInt = 25
     let initialPoints: UInt = 10
     
@@ -38,9 +40,14 @@ class PokerEngine: ObservableObject {
     @Published var dealerHand: (hand: PokerHand, cards: [Card])?
     
     @Published var deck: Deck = Deck()
+
     
     var playerSelected: Int {
         self.playerCards.filter { $0.selected }.count
+    }
+    
+    var level: UInt {
+        return UInt(max(0, Int(log(Double(points + bet)) / log(12)) - 1))
     }
     
     enum GameState {
@@ -153,7 +160,6 @@ class PokerEngine: ObservableObject {
     }
     
     func endRound() {
-        
         if let playerHand, let dealerHand {
             // Win
             if compareHands(lhs: dealerHand, rhs: playerHand)  {
@@ -173,12 +179,65 @@ class PokerEngine: ObservableObject {
         }
     }
     
+    @Published var fact: Fact? = nil
+    func startTrivia() {
+        guard let newFact = triviaFacts.getRandomFact() else {
+            self.startRound()
+            self.givingReward = false
+            return
+        }
+        self.fact = newFact
+    }
+    
+    @Published var feedback: String?
+    @Published var emote: Bool?
+    @Published var givingTriviaReward: Bool = false
+    func answerTrivia(answer: Bool){
+        givingTriviaReward = true
+        if let fact {
+            if answer == fact.answer {
+                emote = true
+                feedback = fact.right
+            } else {
+                emote = false
+                feedback = fact.wrong
+            }
+            
+            if answer == fact.answer {
+                var completedTasks = 0
+                for i in 1...self.previousBet {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.12) {
+                        SoundManager.instance.playLoop(forResource: "Coin", volume: 1, times: 1)
+                        self._points += 1
+                        completedTasks += 1
+                        if completedTasks == self.previousBet {
+                            self.givingTriviaReward = false
+                        }
+                    }
+                }
+            } else {
+                self.givingTriviaReward = false
+            }
+        }
+        
+    }
+    
+    func endTrivia() {
+        self.emote = nil
+        self.feedback = nil
+        self.fact = nil
+        self.givingReward = false
+        self.givingTriviaReward = false
+        self.startRound()
+    }
+    
     @Published var givingReward: Bool = false
     func betOutcome(result: Bool?) {
         self.givingReward = true
         self._previousBet = self._bet
         var completedTasks = 0
-        for i in 1...Int(self._bet) {
+        
+        for i in 1...Int(self._previousBet) {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.12) {
                 SoundManager.instance.playLoop(forResource: "Coin", volume: 1, times: 1)
                 
@@ -194,8 +253,12 @@ class PokerEngine: ObservableObject {
                 completedTasks += 1
                 
                 if completedTasks == self.previousBet {
-                    self.startRound()
-                    self.givingReward = false
+                    if result == false {
+                        self.startTrivia()
+                    } else {
+                        self.startRound()
+                        self.givingReward = false
+                    }
                 }
             }
         }
@@ -301,7 +364,6 @@ class PokerEngine: ObservableObject {
     func detectHand(cards: [Card]) -> (PokerHand, [Card])? {
 
         guard cards.count == 5 else {
-            print("Bozo")
             return nil
         }
 

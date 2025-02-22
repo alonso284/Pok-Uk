@@ -107,6 +107,21 @@ struct HelpMenu: View {
                     }
                     .padding(.vertical)
                     
+                    
+                    Divider()
+                        .frame(height: 4)
+                        .background(Color.black.opacity(0.2))
+                        .padding()
+                    
+                    Text("5. Get more points to unlock new levels and achievements!")
+                    
+                    HStack {
+                        Spacer()
+                        CircleButton(systemName: "trophy", color: Color("Supplement"))
+                        Spacer()
+                    }
+                    .padding(.vertical)
+                    
                     Divider()
                         .frame(height: 4)
                         .background(Color.black.opacity(0.2))

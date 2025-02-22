@@ -133,8 +133,8 @@ extension Game {
                 Spacer()
                 // FIXME: Put correct amount and maybe change the dispalued number
 //                Token(description: ("Peak", pokerEngine.points, true))
-                Text("v1.3.0")
-                    .font(.custom("Mayan", size: 30))
+                Text("Level: \(pokerEngine.level)")
+                    .font(.custom("Mayan", size: 40))
                     .foregroundStyle(.white)
             }
             .padding(.bottom)
@@ -195,13 +195,14 @@ extension Game {
                 Group {
 //                    HandLabel(hand: dealerHand.hand)
                     Spacer()
-                    Button(action: {pokerEngine.endRound()}, label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color("Base").opacity(0.3))
-                                .stroke(Color.black.opacity(0.2), lineWidth: 4)
-                                .frame(maxWidth: 420, maxHeight: 120)
-                                .scaleEffect(scaleEffect)
+                    if pokerEngine.fact == nil {
+                        Button(action: {pokerEngine.endRound()}, label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color("Base").opacity(0.3))
+                                    .stroke(Color.black.opacity(0.2), lineWidth: 4)
+                                    .frame(maxWidth: 420, maxHeight: 120)
+                                    .scaleEffect(scaleEffect)
                                 HStack {
                                     Text(pokerEngine.buttonMessage)
                                         .font(.custom("Mayan", size: 45))
@@ -210,14 +211,26 @@ extension Game {
                                     CircleButton(systemName: "repeat", color: Color("Trees"))
                                 }
                                 .scaleEffect(scaleEffect)
+                            }
+                        })
+                        .disabled(pokerEngine.givingReward)
+                        .onAppear {
+                            startBreathingAnimation()
                         }
-                    })
-                    .disabled(pokerEngine.givingReward)
-                    .onAppear {
-                        startBreathingAnimation()
-                    }
-                    .onDisappear {
-                        stopBreathingAnimation()
+                        .onDisappear {
+                            stopBreathingAnimation()
+                        }
+                    } else {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color("Base").opacity(0.3))
+                                .stroke(Color.black.opacity(0.2), lineWidth: 4)
+                                .frame(maxWidth: 420, maxHeight: 120)
+                            Text("Trivia Time!")
+                                .font(.custom("Mayan", size: 45))
+                                .foregroundStyle(.white)
+                                .padding(.trailing, 5)
+                        }
                     }
                     Spacer()
                 }
