@@ -9,14 +9,11 @@ import SwiftUI
 
 struct CardView: View {
     var showing: Bool = true
-    // FIXME: Remove default
-    var card: Card = .mask
+    var card: Card
     var highlight: Bool = false
     
     var body: some View {
         ZStack {
-//            RoundedRectangle(cornerRadius: 10)
-//                .foregroundStyle(showing ? .white : Color(red: 0.8, green: 0.5, blue: 0.1))
             RadialGradient(colors: [
                 (showing ?  .white:
                     Color("Trees")),
@@ -108,8 +105,6 @@ struct Token: View {
                 .resizable()
                 .scaledToFit()
                 .padding(12)
-//            Circle()
-//                .fill(.black.opacity(0.3))
         }
         .frame(width: 50, height: 50)
     }
@@ -133,10 +128,8 @@ struct Figures: View {
     var body: some View {
         Group {
             if style == .vertical {
+                // Show that these are ranked cards
                 VStack {
-//                    Spacer()
-//                    CircleButton(systemName: "arrow.up", color: Color("Base"), dimension: 50)
-//                    Spacer()
                     ForEach(Card.allCases) { rank in
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -150,31 +143,25 @@ struct Figures: View {
                         }
                         .frame(width: 55, height: 55)
                         .padding(.vertical, 5)
-//                        Spacer()
                     }
-//                    CircleButton(systemName: "arrow.down", color: Color("Base"), dimension: 50)
-//                    Spacer()
                 }
             } else {
                 HStack {
-//                    ForEach(Card.allCases) { rank in
-                        ForEach(Card.allCases) { rank in
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(.white)
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color("Base").opacity(0.2))
-                                Image(rank.description)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .padding(2)
-                            }
-                            .frame(width: 45, height: 45)
-                            .padding(.horizontal, 2)
-    //                        Spacer()
+                    ForEach(Card.allCases) { rank in
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(.white)
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color("Base").opacity(0.2))
+                            Image(rank.description)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(2)
                         }
+                        .frame(width: 45, height: 45)
+                        .padding(.horizontal, 2)
                     }
-//                }
+                }
             }
         }
     }
@@ -218,8 +205,6 @@ struct CustomTextBox: View {
                 .resizable()
                 .frame(width: width, height: height)
                 .clipped()
-//                                    .scaledToFit()
-            
             
             RoundedRectangle(cornerRadius: strokeSize)
                 .stroke(strokeColor, lineWidth: strokeSize)

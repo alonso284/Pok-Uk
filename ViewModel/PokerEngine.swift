@@ -9,13 +9,11 @@ import Foundation
 import SwiftUI
 
 
-// FIXME: Move to another class
 class PokerEngine: ObservableObject {
     
     let maxBet: UInt = 25
     let initialPoints: UInt = 10
     
-    // FIXME: Move to engine object
     @Published private var _points:  UInt = 0
     var points : UInt { return self._points }
     @Published private var _bet:      UInt = 0
@@ -29,7 +27,6 @@ class PokerEngine: ObservableObject {
     var drawn : UInt { return self._drawn }
     
     var handsPlayed : UInt { return self._drawn + self._won + self._lost }
-    
     
     @Published private var _previousBet: UInt = 0
     var previousBet : UInt { return self._previousBet }

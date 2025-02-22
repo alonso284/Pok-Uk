@@ -40,10 +40,10 @@ class SoundManager {
     }
     
     func playBackgroundMusic() {
-        playLoop(forResource: "Music", volume: 0.3, times: -1) // Play music immediately
+        playLoop(forResource: "Music", volume: 0.3, times: -1) // Play music immediately in loop
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.playLoop(forResource: "Ambient", volume: 0.1) // Delay ambient by 5 sec
+            self.playLoop(forResource: "Ambient", volume: 0.1, times: -1) // Delay ambient audio, then play in loop
         }
     }
     

@@ -17,11 +17,10 @@ struct ContentView: View {
     @State private var showButton:  Bool = false
     @State private var showLogo:    Bool = false
     
-    
     var body: some View {
         ZStack {
+            // Scrolling background
             GeometryReader { geometry in
-                
                 let containerHeight = geometry.size.height
                 let imageSize = UIImage(named: backgroundImageName)?.size ?? .zero
                 let imageAspectRatio = imageSize.width / imageSize.height
@@ -55,8 +54,6 @@ struct ContentView: View {
                         Color(white: 0, opacity: 0.2)
                         
                         // Logo & Button
-                        // FIXME: They are not centered
-                        
                         VStack(spacing: 0) {
                             CustomTextBox(text: "Pok'Uk")
                                 .opacity((showLogo ? 1 : 0))
@@ -81,20 +78,22 @@ struct ContentView: View {
                             
                         }
                         
-                        // FIXME: NOW
+                        // FIXME: Quick Fix
                         .offset(x: -230)
+                        // Animate logo and button on appear
                         .onAppear {
-                            // Animate the logo with a 3-second duration
                             withAnimation(.easeInOut(duration: 3)) {
-                                showLogo = true  // Set showLogo to true with animation
+                                showLogo = true
                             }
-                            
-                            // Delay the button appearance by 3 seconds, so it starts after the logo animation
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 withAnimation(.easeInOut(duration: 2)) {
-                                    showButton = true  // Set showButton to true with animation
+                                    showButton = true
                                 }
                             }
+                        }
+                        .onDisappear {
+                            showButton = false
+                            showLogo = false
                         }
                     }
                     .ignoresSafeArea()

@@ -8,20 +8,17 @@
 import SwiftUI
 import Combine
 
-// FIXME Dimensions
-// FIXME The right person is not winning
-// FIXME What does this address??
-
 struct Game: View {
     @Environment(\.dismiss) var dismiss
+    
+    // Menus / Sheets
     @State var paused: Bool = false
     @State var rankedCards: Bool = false
-    // FIXME: Switch to true
     @State var help: Bool = true
     @State var achievements: Bool = false
     
     // Game stats
-    @State var time:    Int = 0
+    let startTime: Date = .now
     @StateObject var pokerEngine = PokerEngine()
     
     // Animation variables

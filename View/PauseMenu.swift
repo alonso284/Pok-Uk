@@ -14,20 +14,38 @@ extension Game {
             Color("Supplement").opacity(0.8)
             
             VStack {
-                Spacer()
-                Text(pokerEngine.points + pokerEngine.bet <= 0 ? "Out of Tokens" : "Pok'Uk")
-                    .font(.custom("Mayan", size: 80))
-                    .foregroundStyle(.white)
-                    .padding(.top, 10)
+                if pokerEngine.points + pokerEngine.bet <= 0 {
+                Text("Out of Tokens")
+                        .font(.custom("Mayan", size: 80))
+                        .foregroundStyle(.white)
+                        .padding(.top, 10)
+                        .padding(.vertical, 25)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("Accent").opacity(0.4))
+                } else {
+                    HStack {
+                        Image("Icon")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 100, height: 100)
+                            .cornerRadius(20)
+                            .padding(.trailing, 10)
+                        
+                        Text("Pok'Uk")
+                            .font(.custom("Mayan", size: 80))
+                            .foregroundStyle(.white)
+                            .padding(.top, 10)
+                    }
                     .padding(.vertical, 25)
                     .frame(maxWidth: .infinity)
-                    .background(Color(pokerEngine.points + pokerEngine.bet <= 0 ? "Accent" : "Supplement").opacity(0.4))
+                    .background(Color("Supplement").opacity(0.4))
+                }
                 Spacer()
                 Stats
                 Spacer()
                 OptionButtons
-                Spacer()
             }
+            
         }
         .foregroundStyle(.white)
     }
@@ -35,11 +53,10 @@ extension Game {
     var Stats: some View {
         VStack(alignment: .trailing) {
             HStack {
-                Text("Total Hands: "); Spacer(); Text("\(pokerEngine.handsPlayed)")
+                Text("Hands: "); Spacer(); Text("\(pokerEngine.handsPlayed)")
             }
             .font(.custom("Mayan", size: 40))
-//            .frame(width: 300)
-            .padding(.vertical)
+            
             Group {
                 HStack {
                     Text("Won: "); Spacer(); Text("\(pokerEngine.won)")
@@ -52,11 +69,21 @@ extension Game {
                 }
             }
             .font(.custom("Mayan", size: 30))
-//            .frame(width: 250)
-//            .padding(1)
             .padding(.vertical, 1)
+            
+            HStack {
+                let timeSpent = Int(-startTime.timeIntervalSinceNow)
+                let hours = timeSpent / 3600
+                let minutes = (timeSpent % 3600) / 60
+                let seconds = timeSpent % 60
+                
+                Text("Time: ")
+                Spacer()
+                Text(String(format: "%02d:%02d:%02d", hours, minutes, seconds))
+            }
+            .font(.custom("Mayan", size: 30))
         }
-        .frame(width: 300)
+        .frame(width: 350)
     }
     
     var OptionButtons: some View {
@@ -96,7 +123,7 @@ extension Game {
                 }
                 .font(.system(size: 80))
             }
-            .padding()
+            .padding(.vertical, 30)
             .background(Color("Supplement").opacity(0.4))
         }
     }

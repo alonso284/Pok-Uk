@@ -12,25 +12,17 @@ extension Game {
         VStack(spacing: 5) {
             BettingOptions
             ZStack {
-                // Green Background
                 Color.white
                 RadialGradient(colors: [Color("Supplement"), .black], center: .center, startRadius: 200, endRadius: 1800)
                     .opacity(0.85)
-//                Image("Base")
-//                    .resizable()
-//                    .scaledToFill()
-//                Color("Base").opacity(0.8)
                 
                 HStack {
                     Spacer()
                     Figures()
                     Spacer()
-                    // Cards
                     TableCenter
                         .padding()
                     Spacer()
-//                    Streak
-//                    Spacer()
                 }
                 .padding()
             }
@@ -103,7 +95,6 @@ extension Game {
                 Spacer()
                 
                 // Decrease
-
                 Button(action: {
                     pokerEngine.decreaseBet()
                     SoundManager.instance.playLoop(forResource: "Coin", volume: 1)
@@ -210,9 +201,7 @@ extension Game {
                                 .fill(Color("Base").opacity(0.3))
                                 .stroke(Color.black.opacity(0.2), lineWidth: 4)
                                 .frame(maxWidth: 420, maxHeight: 120)
-                                .scaleEffect(scaleEffect)  // Apply scaling effect
-                            
-    //                        if !pokerEngine.determiningWinner {
+                                .scaleEffect(scaleEffect)
                                 HStack {
                                     Text(pokerEngine.buttonMessage)
                                         .font(.custom("Mayan", size: 45))
@@ -221,8 +210,6 @@ extension Game {
                                     CircleButton(systemName: "repeat", color: Color("Trees"))
                                 }
                                 .scaleEffect(scaleEffect)
-                            
-    //                        }
                         }
                     })
                     .disabled(pokerEngine.givingReward)
@@ -233,21 +220,15 @@ extension Game {
                         stopBreathingAnimation()
                     }
                     Spacer()
-//                    HandLabel(hand: playerHand.hand)
                 }
-                // Draw & Hold Buttons
             } else {
-                
-
                 Spacer()
-
                 Button(action: {
                     if pokerEngine.bet == 0 {
                         withAnimation {
                             errorMessage = "Place a bet to play."
                         }
-                        
-                        // Remove the error message after 3 seconds
+                        // Remove the error message after 2 seconds
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 errorMessage = nil
@@ -288,13 +269,13 @@ extension Game {
             Animation.easeInOut(duration: 2)
                 .repeatForever(autoreverses: true)
         ) {
-            scaleEffect = 1.1 // Scale up
+            scaleEffect = 1.1
         }
     }
     
     func stopBreathingAnimation() {
         withAnimation {
-            scaleEffect = 1.0 // Reset scale
+            scaleEffect = 1.0
         }
         isAnimating = false
     }
@@ -306,14 +287,11 @@ extension Game {
 //    }
 }
 
-
-
 #Preview {
     NavigationStack {
         Game()
     }
 }
-
 
 //class GameScene: SKScene {
 //    override func didMove(to view: SKView) {
