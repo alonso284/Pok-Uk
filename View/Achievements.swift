@@ -23,11 +23,11 @@ extension Game {
                     .padding(.bottom, 10)
                 
                 VStack {
-                    Achievement(id: 1, title: "Dedication is Key", description: "Play 30 hands", value: pokerEngine.handsPlayed, total: 1, reward: 5)
+                    Achievement(id: 1, title: "Dedication is Key", description: "Play 30 hands", value: pokerEngine.handsPlayed, total: 1, reward: 40)
                     
-                    Achievement(id: 2, title: "A Master of Sorts", description: "Win 20 Hands", value: pokerEngine.won, total: 20, reward: 5)
+                    Achievement(id: 2, title: "A Master of Sorts", description: "Win 20 Hands", value: pokerEngine.won, total: 20, reward: 60)
                     
-                    Achievement(id: 3, title: "Big Brain", description: "Answer 10 trivia questions correctly", value: pokerEngine.correctTriviaQuestions, total: 10, reward: 5)
+                    Achievement(id: 3, title: "Big Brain", description: "Answer 10 trivia questions correctly", value: pokerEngine.correctTriviaQuestions, total: 10, reward: 30)
                 }
                 .padding()
             }

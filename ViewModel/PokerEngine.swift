@@ -11,12 +11,6 @@ import SwiftUI
 
 class PokerEngine: ObservableObject {
     
-    // Achievements
-    // Play N hands
-    // Win N hands
-    // Win with X Hand N Times
-    // Answer N trivia questions correctly
-    
     @StateObject var triviaFacts = FactViewModel()
     
     let maxBet: UInt = 25
