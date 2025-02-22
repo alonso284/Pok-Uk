@@ -25,10 +25,16 @@ class PokerEngine: ObservableObject {
     var won : UInt { return self._won }
     @Published private var _lost:      UInt = 0
     var lost : UInt { return self._lost }
-    @Published private var _drawn:      UInt = 0
-    var drawn : UInt { return self._drawn }
+    @Published private var _tied:      UInt = 0
+    var tied : UInt { return self._tied }
     
-    var handsPlayed : UInt { return self._drawn + self._won + self._lost }
+    var handsPlayed : UInt { return self._tied + self._won + self._lost }
+    
+    var chartData: [(name: String, value: UInt, color: Color)] { [
+        (name: "Won", value: won, color: Color("TreesLight")),
+        (name: "Lost", value: lost, color: Color("Accent")),
+        (name: "Tied", value: tied, color: Color("Base")),
+    ] }
     
     @Published var correctTriviaQuestions: UInt = 0
     
@@ -128,7 +134,7 @@ class PokerEngine: ObservableObject {
         _previousBet = 0
         _won = 0
         _lost = 0
-        _drawn = 0
+        _tied = 0
         achievementsClaimed = []
         
         self.correctTriviaQuestions = 0
@@ -196,7 +202,7 @@ class PokerEngine: ObservableObject {
             }
             // Tie
             else {
-                _drawn += 1
+                _tied += 1
                 betOutcome(result: nil)
             }
         }
@@ -329,12 +335,10 @@ class PokerEngine: ObservableObject {
         let drawnCard = playerSelected
         for index in playerCards.indices {
             if playerCards[index].selected {
-                // Hide the card
-                SoundManager.instance.playLoop(forResource: "Card", volume: 0.7)
-                playerCards[index].showing = false
-
                 // Delay to allow the hide animation to complete
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    SoundManager.instance.playLoop(forResource: "Card", volume: 0.7)
+                    self.playerCards[index].showing = false
                     if let replacement = self.deck.dealOneCard() {
                         // Replace the card
                         self.playerCards[index].card = replacement
@@ -355,7 +359,7 @@ class PokerEngine: ObservableObject {
         }
 
         // Update hands after all animations are complete
-        DispatchQueue.main.asyncAfter(deadline: .now() + (drawnCard > 0 ? 2 : 0)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + (drawnCard > 0 ? 3 : 0)) {
             
             for index in self.dealerCards.indices {
                 self.dealerCards[index].showing = true
@@ -368,9 +372,9 @@ class PokerEngine: ObservableObject {
             // Handle end game state
             switch self.endGameState {
             case .win:
-                SoundManager.instance.playLoop(forResource: "Win", volume: 0.8)
-            case .lose:
                 SoundManager.instance.playLoop(forResource: "Lose", volume: 0.8)
+            case .lose:
+                SoundManager.instance.playLoop(forResource: "Win", volume: 0.8)
             default:
                 break
             }

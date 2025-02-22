@@ -69,12 +69,14 @@ struct ContentView: View {
                                     Image(systemName: "play.circle.fill")
                                         .foregroundStyle(Color("TreesLight"))
                                         .font(.system(size: 80, weight: .bold))
+                                        
                                 }
                                 .frame(width: 200, height: 120)
                                     
                             }
                             .padding(.top, 80)
                             .opacity((showButton ? 1 : 0))
+                            
                             
                         }
                         

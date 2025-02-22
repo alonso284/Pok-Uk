@@ -107,7 +107,7 @@ extension Game {
                 Button(action: {
                     pokerEngine.allInBet()
                     
-                }, label: {CircleButton(systemName: "square.and.arrow.up", color: Color("Base"))})
+                }, label: {CircleButton(systemName: "infinity", color: Color("Base"))})
                     .disabled(pokerEngine.roundStarted || pokerEngine.points <= 0)
                 
                 // Reset

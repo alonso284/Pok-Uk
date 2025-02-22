@@ -129,22 +129,37 @@ struct Figures: View {
         Group {
             if style == .vertical {
                 // Show that these are ranked cards
-                VStack {
-                    ForEach(Card.allCases) { rank in
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(.white)
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color("Base").opacity(0.2))
-                            Image(rank.description)
-                                .resizable()
-                                .scaledToFit()
-                                .padding(2)
-                        }
-                        .frame(width: 55, height: 55)
-                        .padding(.vertical, 5)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color("Supplement"))
+                    VStack {
+                        Image(systemName: "arrow.up.to.line")
+                            .font(.system(size: 30))
+                        ForEach(Card.allCases) { rank in
+//                            HStack {
+//                                let scale = Card.allCases.count - rank.rawValue
+//                                Text(String(scale))
+//                                    .font(.custom("Mayan", size: 35))
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(.white)
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color("Base").opacity(0.2))
+                                    Image(rank.description)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .padding(2)
+                                }
+                                .frame(width: 55, height: 55)
+                                .padding(.vertical, 5)
+                            }
+                        Image(systemName: "arrow.down.to.line")
+                            .font(.system(size: 30))
+//                        }
                     }
+                    .padding(.horizontal)
                 }
+                .frame(width: 50)
             } else {
                 HStack {
                     ForEach(Card.allCases) { rank in

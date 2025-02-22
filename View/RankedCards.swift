@@ -100,7 +100,8 @@ struct RankedCards: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        opened.toggle()
+                        opened = false
+                        SoundManager.instance.playLoop(forResource: "Blink", volume: 0.5)
                     }, label: {
                         CustomTextBox(text: "Close", height: 60, width: 120, textSize: 30, strokeSize: 5)
                     })

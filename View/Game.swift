@@ -53,7 +53,8 @@ struct Game: View {
             // Pause
             ToolbarItem(placement: .topBarLeading, content: {
                 Button(action: {
-                    paused.toggle()
+                    paused = true
+                    SoundManager.instance.playLoop(forResource: "Blink", volume: 0.5)
                 }) {
                     CircleButton(systemName: "pause", color: Color("Supplement"))
                 }
@@ -63,7 +64,9 @@ struct Game: View {
             // FIXME: Achievements 
             ToolbarItem(placement: .topBarLeading, content: {
                 Button(action: {
-                    achievements.toggle()
+                    achievements = true
+                    SoundManager.instance.playLoop(forResource: "Blink", volume: 0.5)
+                    
                 }) {
                     CircleButton(systemName: "trophy", color: Color("Supplement"))
                 }
@@ -73,9 +76,10 @@ struct Game: View {
             // Hands
             ToolbarItem(placement: .topBarTrailing, content: {
                 Button(action: {
-                    rankedCards.toggle()
+                    rankedCards = true
+                    SoundManager.instance.playLoop(forResource: "Blink", volume: 0.5)
                 }) {
-                    CircleButton(systemName: "folder", color: Color("Supplement"))
+                    CircleButton(systemName: "info", color: Color("Supplement"))
                 }
                 .disabled(paused)
             })
@@ -83,7 +87,8 @@ struct Game: View {
             // Help
             ToolbarItem(placement: .topBarTrailing, content: {
                 Button(action: {
-                    help.toggle()
+                    help = true
+                    SoundManager.instance.playLoop(forResource: "Blink", volume: 0.5)
                 }) {
                     CircleButton(systemName: "questionmark", color: Color("Supplement"))
                 }
