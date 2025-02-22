@@ -25,8 +25,9 @@ struct Game: View {
     @StateObject var pokerEngine = PokerEngine()
     
     // Animation variables
-    @State var isVisible = true
-    @State var timerCancellable: AnyCancellable?
+    @State var scaleEffect: CGFloat = 1.0
+    @State var isAnimating = false
+    @State var errorMessage: String? = nil
     
     let cardShift: CGFloat = 40
     
@@ -93,6 +94,12 @@ struct Game: View {
             })
         })
         .sheet(isPresented: $paused) {
+            PauseMenu
+        }
+        .sheet(isPresented: Binding(
+            get: { pokerEngine.points + pokerEngine.bet <= 0 },
+            set: { _ in }
+        )) {
             PauseMenu
                 .interactiveDismissDisabled()
         }

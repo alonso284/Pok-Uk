@@ -15,13 +15,13 @@ extension Game {
         }
         else {
             if pokerEngine.bet == 0 {
-                return "Place a bet to play."
+                if pokerEngine.bet + pokerEngine.points <= 0 {
+                    return "You’re out of tokens!"
+                } else {
+                    return "Place a bet to play."
+                }    
             } else {
-//                if pokerEngine.playerSelected > 0 {
-                    return "Draw to swap selected cards; hold to keep your hand."
-//                } else {
-//                    return "and hold to keep all current cards."
-//                }
+                return "Let's play!"
             }
         }
     }

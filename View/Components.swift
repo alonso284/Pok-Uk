@@ -66,6 +66,7 @@ struct CircleButton: View {
 
 struct Token: View {
     var description: (text: String?, amount: UInt, number: Bool)?
+    
     var body: some View {
         if let description {
             HStack {
@@ -79,28 +80,29 @@ struct Token: View {
                     .frame(width: 60)
                     .font(.custom("Mayan", size: 40))
                 if description.number {
-                    token
+                    token()
                 } else {
                     ZStack {
-                        // FIXME
+                        // FIXME: Magnitud
                         ForEach(0..<description.amount, id: \.self) { index in
-                            token.offset(x: CGFloat(index * 10))
+                            token().offset(x: CGFloat(index * 10))
                         }
+                        
                     }
                     Spacer()
                 }
             }
         } else {
-            token
+            token()
         }
     }
     
-    var token: some View {
+    func token(magnitud: UInt = 0) -> some View {
         ZStack {
             Circle()
                 .fill(.white)
             Circle()
-                .fill(Color("Obsidian"))
+                .fill(Color("Obsidian\(magnitud)"))
                 .padding(2)
             Image("Token")
                 .resizable()

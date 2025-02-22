@@ -8,14 +8,20 @@ struct ContentView: View {
         MayanFont.registerFonts()
     }
 
-    // variables for moving background
+    // Variables for moving background
     let backgroundImageName = "Background"
     let animationDuration: Double = 120
     @State private var offset: CGFloat = 0
     
+    // Show buttons
+    @State private var showButton:  Bool = false
+    @State private var showLogo:    Bool = false
+    
+    
     var body: some View {
         ZStack {
             GeometryReader { geometry in
+                
                 let containerHeight = geometry.size.height
                 let imageSize = UIImage(named: backgroundImageName)?.size ?? .zero
                 let imageAspectRatio = imageSize.width / imageSize.height
@@ -39,12 +45,11 @@ struct ContentView: View {
                         // Functions for shifting background
                         .offset(x: offset)
                         .onAppear {
-                            offset = -scaledWidth
                             withAnimation(
                                 Animation.linear(duration: animationDuration)
                                     .repeatForever(autoreverses: false)
                             ) {
-                                offset = 2 * -scaledWidth
+                                offset = -scaledWidth
                             }
                         }
                         Color(white: 0, opacity: 0.2)
@@ -53,34 +58,13 @@ struct ContentView: View {
                         // FIXME: They are not centered
                         
                         VStack(spacing: 0) {
-//                            Text("Pok'Uk")
-//                                .font(.custom("Mayan", size: 120))
-//                                .padding(.top, 30)
-//                                .padding(.vertical, 80)
-//                                .frame(maxWidth: .infinity)
-//                                .background(Color("Base").opacity(0.4))
-//                            TextBox(text: "Pok'Uk", color: Color("Base"), multplier: 1.2)
                             CustomTextBox(text: "Pok'Uk")
+                                .opacity((showLogo ? 1 : 0))
                             
-                            
+                            // Play Button
                             NavigationLink(destination: Game().navigationBarBackButtonHidden(true)) {
-//                                Text("Play")
-//                                    .font(.custom("Mayan", size: 80))
-//                                    .foregroundStyle(Color("Base"))
-//                                    .padding(.top, 80)
-//                                    .frame(maxWidth: .infinity)
-////                                    .background(Color("Trees").opacity(0.2))
-                                
                                 ZStack {
-                                    
-//                                    Image("Base")
-//                                        .resizable()
-//                                        .frame(width: 240, height: 120)
-//                                        .clipped()
-                                    
-                                    Color(.white)
-                                    
-                                    
+                                    Color.white
                                     RoundedRectangle(cornerRadius: 15)
                                         .stroke(Color("Trees"), lineWidth: 15)
                                         .fill(Color("TreesLight").opacity(0.8))
@@ -93,12 +77,25 @@ struct ContentView: View {
                                     
                             }
                             .padding(.top, 80)
+                            .opacity((showButton ? 1 : 0))
                             
                         }
+                        
                         // FIXME: NOW
                         .offset(x: -230)
-                        .frame(maxWidth: .infinity)
-                        
+                        .onAppear {
+                            // Animate the logo with a 3-second duration
+                            withAnimation(.easeInOut(duration: 3)) {
+                                showLogo = true  // Set showLogo to true with animation
+                            }
+                            
+                            // Delay the button appearance by 3 seconds, so it starts after the logo animation
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                withAnimation(.easeInOut(duration: 2)) {
+                                    showButton = true  // Set showButton to true with animation
+                                }
+                            }
+                        }
                     }
                     .ignoresSafeArea()
                 }

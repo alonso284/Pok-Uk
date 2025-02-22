@@ -29,10 +29,10 @@ struct HelpMenu: View {
                         Image("Icon")
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 150, height: 150)
+                            .frame(width: 200, height: 200)
                             .padding()
                             .cornerRadius(80)
-                        Text("Play Picture Poker with Halak, your friendly Mayan priest!")
+                        Text("Play Picture Poker with Halak, your friendly Mayan priest! Scroll down for instructions on how to play.")
                     }
                     
                     
@@ -48,9 +48,9 @@ struct HelpMenu: View {
                         Token()
                         Image(systemName: "forward.frame")
                             .padding(.horizontal)
-                        CircleButton(systemName: "arrow.down", color: Color("TreesLight"))
-                        CircleButton(systemName: "arrow.up", color: Color("TreesLight"))
-                        CircleButton(systemName: "repeat", color: Color("Base"))
+                        CircleButton(systemName: "minus", color: Color("TreesLight"))
+                        CircleButton(systemName: "plus", color: Color("TreesLight"))
+                        CircleButton(systemName: "square.and.arrow.up", color: Color("Base"))
                         CircleButton(systemName: "trash", color: Color("Accent"))
                         Spacer()
                     }

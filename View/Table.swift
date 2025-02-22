@@ -107,19 +107,19 @@ extension Game {
                 Button(action: {
                     pokerEngine.decreaseBet()
                     SoundManager.instance.playLoop(forResource: "Coin", volume: 1)
-                }, label: {CircleButton(systemName: "arrow.down", color: Color("TreesLight"))})
+                }, label: {CircleButton(systemName: "minus", color: Color("TreesLight"))})
                     .disabled(pokerEngine.roundStarted || pokerEngine.bet <= 0)
                 // Increase
                 Button(action: {
                     pokerEngine.increaseBet()
-                }, label: {CircleButton(systemName: "arrow.up", color: Color("TreesLight"))})
+                }, label: {CircleButton(systemName: "plus", color: Color("TreesLight"))})
                 .disabled(pokerEngine.roundStarted || pokerEngine.points == 0 || pokerEngine.bet >= pokerEngine.maxBet)
                 // Repeat
                 Button(action: {
-                    pokerEngine.repeatBet()
+                    pokerEngine.allInBet()
                     
-                }, label: {CircleButton(systemName: "repeat", color: Color("Base"))})
-                    .disabled(pokerEngine.roundStarted || pokerEngine.points + pokerEngine.bet < pokerEngine.previousBet)
+                }, label: {CircleButton(systemName: "square.and.arrow.up", color: Color("Base"))})
+                    .disabled(pokerEngine.roundStarted || pokerEngine.points <= 0)
                 
                 // Reset
                 Button(action: {
@@ -156,15 +156,15 @@ extension Game {
             ForEach(pokerEngine.playerCards.indices, id: \.self) { index in
                 let card = pokerEngine.playerCards[index].0
                 let isSelected = pokerEngine.playerCards[index].1
+                let isShowing = pokerEngine.playerCards[index].2
                 
                 if let playerHand = pokerEngine.playerHand {
-                    CardView(showing: true, card: card, highlight: playerHand.cards.contains(card))
+                    CardView(showing: isShowing, card: card, highlight: playerHand.cards.contains(card))
                         .offset(y: (playerHand.cards.contains(card) ? -cardShift : 0))
-//                        .opacity(playerHand.cards.contains(card) ? (isVisible ? 1 : 0): 1)
                 } else {
                     //                    FIXME: This doesnt look very nice
                     
-                    CardView(showing: true, card: card)
+                    CardView(showing: isShowing, card: card)
                         .offset(y: (isSelected ? -cardShift : 0))
                         .animation(.easeInOut(duration: 0.2), value: isSelected)
                         .onTapGesture {
@@ -181,15 +181,15 @@ extension Game {
         HStack {
             if let dealerHand = pokerEngine.dealerHand {
                 ForEach(pokerEngine.dealerCards, id: \.self.0){
-                    (card, selected) in
+                    (card, selected, showing) in
                     
-                    CardView(showing: true, card: card, highlight: dealerHand.cards.contains(card))
+                    CardView(showing: showing, card: card, highlight: dealerHand.cards.contains(card))
                         .offset(y: (dealerHand.cards.contains(card) ? cardShift : 0))
                     }
             } else {
                 ForEach(pokerEngine.dealerCards, id: \.self.0){
-                    (card, selected) in
-                    CardView(showing: false, card: card)
+                    (card, selected, showing) in
+                    CardView(showing: showing, card: card)
                         .offset(y: (selected ? cardShift : 0))
                 }
             }
@@ -204,61 +204,74 @@ extension Game {
                 Group {
 //                    HandLabel(hand: dealerHand.hand)
                     Spacer()
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color("Base").opacity(0.3))
-                            .stroke(Color.black.opacity(0.2), lineWidth: 4)
-                            .frame(maxWidth: 420, maxHeight: 120)
-                        HStack {
-                            Text(pokerEngine.buttonMessage)
-                                .font(.custom("Mayan", size: 45))
-                                .foregroundStyle(.white)
-                                .padding(.trailing, 5)
-                            CircleButton(systemName: "repeat", color: Color("Trees"))
+                    Button(action: {pokerEngine.endRound()}, label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color("Base").opacity(0.3))
+                                .stroke(Color.black.opacity(0.2), lineWidth: 4)
+                                .frame(maxWidth: 420, maxHeight: 120)
+                                .scaleEffect(scaleEffect)  // Apply scaling effect
+                            
+    //                        if !pokerEngine.determiningWinner {
+                                HStack {
+                                    Text(pokerEngine.buttonMessage)
+                                        .font(.custom("Mayan", size: 45))
+                                        .foregroundStyle(.white)
+                                        .padding(.trailing, 5)
+                                    CircleButton(systemName: "repeat", color: Color("Trees"))
+                                }
+                                .scaleEffect(scaleEffect)
+                            
+    //                        }
                         }
-                        
-                    }
+                    })
+                    .disabled(pokerEngine.givingReward)
                     .onAppear {
-                        startTimer()
+                        startBreathingAnimation()
                     }
                     .onDisappear {
-                        stopTimer()
-                    }
-                    .opacity(isVisible ? 1 : 0.00001)
-                    .onTapGesture {
-                        pokerEngine.endRound()
-                        
+                        stopBreathingAnimation()
                     }
                     Spacer()
 //                    HandLabel(hand: playerHand.hand)
                 }
                 // Draw & Hold Buttons
             } else {
+                
+
                 Spacer()
+
                 Button(action: {
-                    pokerEngine.playerTurn()
-                    print(pokerEngine.buttonMessage)
+                    if pokerEngine.bet == 0 {
+                        withAnimation {
+                            errorMessage = "Place a bet to play."
+                        }
+                        
+                        // Remove the error message after 3 seconds
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                errorMessage = nil
+                            }
+                        }
+                    } else {
+                        pokerEngine.playerTurn()
+                    }
                 }, label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color.black.opacity(0.2), lineWidth: 5)
-                            .fill(Color("Base").opacity(pokerEngine.bet == 0 ? 0.1 : 0.3))
+                            .fill((errorMessage != nil) ? Color("Accent").opacity(0.3) : Color("Base").opacity(pokerEngine.bet == 0 ? 0.1 : 0.3))
                             .frame(maxWidth: 420, maxHeight: 120)
-                            
+
                         VStack {
-                            Text(pokerEngine.buttonMessage)
+                            Text(errorMessage ?? pokerEngine.buttonMessage)
                                 .font(.custom("Mayan", size: 40))
                                 .foregroundStyle(.white)
-                            
-//                            Text(pokerEngine.bet == 0 ? "Place a bet to play":
-//                                    (pokerEngine.playerSelected > 0 ? "Change the selected cards": "Keep all current cards"))
-//                                .font(.custom("Mayan", size: 20))
-                            
                         }
                         .foregroundStyle(.white)
                     }
                 })
-                .disabled(pokerEngine.bet == 0)
+                .disabled(pokerEngine.determiningWinner)
                 Spacer()
             }
         }
@@ -266,18 +279,24 @@ extension Game {
 
     }
     
-    private func startTimer() {
-        timerCancellable = Timer.publish(every: 1, on: .main, in: .common)
-            .autoconnect()
-            .sink { _ in
-                isVisible.toggle()
-            }
+    func startBreathingAnimation() {
+        guard !isAnimating else { return }
+        isAnimating = true
+        
+        // Animate the scaling effect for the breathing effect
+        withAnimation(
+            Animation.easeInOut(duration: 2)
+                .repeatForever(autoreverses: true)
+        ) {
+            scaleEffect = 1.1 // Scale up
+        }
     }
-
-    /// Stops the timer to prevent memory leaks
-    private func stopTimer() {
-        timerCancellable?.cancel()
-        timerCancellable = nil
+    
+    func stopBreathingAnimation() {
+        withAnimation {
+            scaleEffect = 1.0 // Reset scale
+        }
+        isAnimating = false
     }
     
 //    func makeGameScene() -> SKScene {

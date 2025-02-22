@@ -15,13 +15,13 @@ extension Game {
             
             VStack {
                 Spacer()
-                Text("Pok'Uk")
-                    .font(.custom("Mayan", size: 90))
+                Text(pokerEngine.points + pokerEngine.bet <= 0 ? "Out of Tokens" : "Pok'Uk")
+                    .font(.custom("Mayan", size: 80))
                     .foregroundStyle(.white)
                     .padding(.top, 10)
                     .padding(.vertical, 25)
                     .frame(maxWidth: .infinity)
-                    .background(Color("Supplement").opacity(0.4))
+                    .background(Color(pokerEngine.points + pokerEngine.bet <= 0 ? "Accent" : "Supplement").opacity(0.4))
                 Spacer()
                 Stats
                 Spacer()
@@ -33,13 +33,13 @@ extension Game {
     }
     
     var Stats: some View {
-        VStack {
+        VStack(alignment: .trailing) {
             HStack {
                 Text("Total Hands: "); Spacer(); Text("\(pokerEngine.handsPlayed)")
             }
-            .font(.custom("Mayan", size: 60))
-            .frame(width: 350)
-            .padding()
+            .font(.custom("Mayan", size: 40))
+//            .frame(width: 300)
+            .padding(.vertical)
             Group {
                 HStack {
                     Text("Won: "); Spacer(); Text("\(pokerEngine.won)")
@@ -48,13 +48,15 @@ extension Game {
                     Text("Lost: "); Spacer(); Text("\(pokerEngine.lost)")
                 }
                 HStack {
-                    Text("Drawn: "); Spacer(); Text("\(pokerEngine.drawn)")
+                    Text("Tied: "); Spacer(); Text("\(pokerEngine.drawn)")
                 }
             }
-            .font(.custom("Mayan", size: 40))
-            .frame(width: 300)
-            .padding(1)
+            .font(.custom("Mayan", size: 30))
+//            .frame(width: 250)
+//            .padding(1)
+            .padding(.vertical, 1)
         }
+        .frame(width: 300)
     }
     
     var OptionButtons: some View {
@@ -73,21 +75,23 @@ extension Game {
                     Spacer()
                     // Restart
                     Button(action: {
-//                        restart()
+                        pokerEngine.restartGame()
+                        paused = false
                     }, label: {
                         Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill")
                             .foregroundStyle(Color("Base"))
                     })
                     Spacer()
                     // Resume
-                    Button(action: {
-//                        resume()
-                        paused = false
-                    }, label: {
-                        Image(systemName: "play.circle.fill")
-                            .foregroundStyle(Color("TreesLight"))
-                    })
-                    Spacer()
+                    if  pokerEngine.points + pokerEngine.bet > 0 {
+                        Button(action: {
+                            paused = false
+                        }, label: {
+                            Image(systemName: "play.circle.fill")
+                                .foregroundStyle(Color("TreesLight"))
+                        })
+                        Spacer()
+                    }
                     Spacer()
                 }
                 .font(.system(size: 80))
