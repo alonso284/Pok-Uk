@@ -32,7 +32,9 @@ struct HelpMenu: View {
                             .frame(width: 200, height: 200)
                             .padding()
                             .cornerRadius(80)
-                        Text("Play Picture Poker with Halak, your friendly Mayan priest! Scroll down for instructions on how to play.")
+                        Text("Play Picture Poker with Halak, your friendly Mayan priest!")
+                        Text(""); Text("")
+                        Text("Scroll down for instructions on how to play.")
                     }
                     
                     
@@ -113,7 +115,7 @@ struct HelpMenu: View {
                         .background(Color.black.opacity(0.2))
                         .padding()
                     
-                    Text("5. Get more points to unlock new levels and achievements!")
+                    Text("5. Collect more tokens, unlock new levels and earn achievements!")
                     
                     HStack {
                         Spacer()

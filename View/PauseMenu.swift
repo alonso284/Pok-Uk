@@ -15,13 +15,17 @@ extension Game {
             
             VStack {
                 if pokerEngine.points + pokerEngine.bet <= 0 {
-                Text("Out of Tokens")
-                        .font(.custom("Mayan", size: 80))
-                        .foregroundStyle(.white)
-                        .padding(.top, 10)
-                        .padding(.vertical, 25)
-                        .frame(maxWidth: .infinity)
-                        .background(Color("Accent").opacity(0.4))
+                    VStack {
+                        Text("Out of Tokens")
+                            .font(.custom("Mayan", size: 80))
+                            .padding(.top, 10)
+                        Text("Restart to continue")
+                            .font(.custom("Mayan", size: 30))
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.vertical, 25)
+                    .frame(maxWidth: .infinity)
+                    .background(Color("Accent").opacity(0.4))
                 } else {
                     HStack {
                         Image("Icon")

@@ -88,10 +88,8 @@ extension Game {
     var BettingOptions: some View {
         ZStack {
             Color("Supplement")
-//                .opacity(0.6)
             HStack {
-                // FIXME: Bet size
-                Token(description: ("Wager", pokerEngine.bet, false))
+                Token(description: ("Bet", pokerEngine.bet, false))
                 Spacer()
                 
                 // Decrease
