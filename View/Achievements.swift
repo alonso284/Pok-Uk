@@ -27,9 +27,9 @@ extension Game {
                     
                     Achievement(id: 2, title: "A Master of Sorts", description: "Win 6 Hands.", value: pokerEngine.won, total: 6, reward: 15)
                     
-                    Achievement(id: 2, title: "Pity Prize", description: "Lose 6 Hands.", value: pokerEngine.won, total: 6, reward: 15)
+                    Achievement(id: 3, title: "Pity Prize", description: "Lose 6 Hands.", value: pokerEngine.won, total: 6, reward: 15)
                     
-                    Achievement(id: 3, title: "Big Brain", description: "Answer 5 trivia questions correctly.", value: pokerEngine.correctTriviaQuestions, total: 5, reward: 20)
+                    Achievement(id: 4, title: "Big Brain", description: "Answer 5 trivia questions correctly.", value: pokerEngine.correctTriviaQuestions, total: 5, reward: 20)
                 }
                 .padding()
             }

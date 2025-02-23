@@ -93,7 +93,7 @@ struct HelpMenu: View {
                             .padding(.horizontal)
                         CircleButton(systemName: "minus", color: Color("TreesLight"))
                         CircleButton(systemName: "plus", color: Color("TreesLight"))
-                        CircleButton(systemName: "square.and.arrow.up", color: Color("Base"))
+                        CircleButton(systemName: "infinity", color: Color("Base"))
                         CircleButton(systemName: "trash", color: Color("Accent"))
                         Spacer()
                     }

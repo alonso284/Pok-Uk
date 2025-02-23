@@ -135,6 +135,7 @@ struct Figures: View {
                     VStack {
                         Image(systemName: "arrow.up.to.line")
                             .font(.system(size: 30))
+                            .foregroundStyle(.white)
                         ForEach(Card.allCases) { rank in
 //                            HStack {
 //                                let scale = Card.allCases.count - rank.rawValue
@@ -155,6 +156,7 @@ struct Figures: View {
                             }
                         Image(systemName: "arrow.down.to.line")
                             .font(.system(size: 30))
+                            .foregroundStyle(.white)
 //                        }
                     }
                     .padding(.horizontal)
