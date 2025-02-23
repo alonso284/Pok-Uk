@@ -109,7 +109,7 @@ extension PokerHand {
     func isHand(cards: [Card]) -> [Card]? {
         switch self {
         case .highCard:
-            if let maxNCard = cards.max() {
+            if let maxNCard = cards.min() {
                return [maxNCard]
             } else {
                 return nil

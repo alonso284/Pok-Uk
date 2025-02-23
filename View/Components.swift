@@ -133,9 +133,13 @@ struct Figures: View {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Supplement"))
                     VStack {
-                        Image(systemName: "arrow.up.to.line")
-                            .font(.system(size: 30))
+//                        Image(systemName: "arrow.up.to.line")
+//                            .font(.system(size: 30))
+//                            .foregroundStyle(.white)
+                        Text("High")
+                            .font(.custom("Mayan", size: 15))
                             .foregroundStyle(.white)
+                            .padding(.bottom)
                         ForEach(Card.allCases) { rank in
 //                            HStack {
 //                                let scale = Card.allCases.count - rank.rawValue
@@ -154,9 +158,13 @@ struct Figures: View {
                                 .frame(width: 55, height: 55)
                                 .padding(.vertical, 5)
                             }
-                        Image(systemName: "arrow.down.to.line")
-                            .font(.system(size: 30))
+//                        Image(systemName: "arrow.down.to.line")
+//                            .font(.system(size: 30))
+//                            .foregroundStyle(.white)
+                        Text("Low")
+                            .font(.custom("Mayan", size: 15))
                             .foregroundStyle(.white)
+                            .padding(.top)
 //                        }
                     }
                     .padding(.horizontal)
